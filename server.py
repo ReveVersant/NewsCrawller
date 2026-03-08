@@ -11,7 +11,7 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).parent
 CONFIG_PATH = ROOT / "config" / "sources.json"
-WEB_DIR = ROOT / "web"
+WEB_DIR = ROOT / "docs"
 
 USER_AGENT = "AI-News-Hub/1.0 (+local dashboard)"
 REQUEST_TIMEOUT_SECONDS = 12
@@ -302,4 +302,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 

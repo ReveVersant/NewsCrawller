@@ -1,9 +1,0 @@
-[build]
-  publish = "docs"
-  functions = "netlify/functions"
-
-[[redirects]]
-  from = "/api/news"
-  to = "/.netlify/functions/news"
-  status = 200
-  force = true

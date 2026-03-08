@@ -5,10 +5,10 @@ A news hub for early updates on conversational AI, chatbots, voice bots, and dig
 ## Live Hosting Options
 - Local live API: `py -3 server.py`
 - Netlify live API: serverless function at `/api/news` (fresh feed pulls on each refresh)
-- Static fallback: `docs/news.json` and `web/news.json`
+- Static fallback: `docs/news.json`
 
 ## Netlify (Non-Static) Setup
-This repo is already configured for live Netlify fetching.
+This repo is configured for live Netlify fetching.
 
 1. Connect repo `ReveVersant/NewsCrawller` in Netlify.
 2. Site settings should resolve from `netlify.toml` automatically:

@@ -14,11 +14,7 @@ def resolve_outputs(explicit: list[str] | None) -> list[Path]:
     if explicit:
         return [Path(p).resolve() for p in explicit]
 
-    targets = [ROOT / "web" / "news.json"]
-    docs_target = ROOT / "docs" / "news.json"
-    if (ROOT / "docs").exists():
-        targets.append(docs_target)
-    return targets
+    return [ROOT / "docs" / "news.json"]
 
 
 def main() -> None:
