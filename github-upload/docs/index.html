@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conversational AI News Hub</title>
+    <style>
+      :root {
+        --bg: #f3f7f3;
+        --panel: #ffffff;
+        --ink: #17211f;
+        --muted: #56635f;
+        --accent: #1f8f68;
+        --accent-2: #0f5f80;
+        --warn: #a4551d;
+        --border: #d8e2db;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: radial-gradient(circle at 10% 10%, #dbeee3 0%, var(--bg) 45%, #eef3f8 100%);
+        font-family: "Segoe UI", "Aptos", Tahoma, sans-serif;
+      }
+
+      .wrap {
+        width: min(1100px, 96vw);
+        margin: 24px auto 40px;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, #083f44, #0b5956 55%, #14656f);
+        color: #e8f8f5;
+        border-radius: 18px;
+        padding: 22px;
+        box-shadow: 0 12px 26px rgba(6, 44, 53, 0.25);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.3rem, 1.9vw, 2rem);
+      }
+
+      .sub {
+        margin-top: 8px;
+        color: #bee3de;
+        line-height: 1.4;
+      }
+
+      .controls {
+        margin-top: 16px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+
+      button, select {
+        border: 1px solid #74b1a5;
+        border-radius: 10px;
+        padding: 8px 12px;
+        background: #ecf9f4;
+        color: #0c3a3f;
+        font-weight: 600;
+      }
+
+      button {
+        cursor: pointer;
+        transition: transform 0.12s ease;
+      }
+
+      button:hover { transform: translateY(-1px); }
+
+      .meta {
+        margin-top: 14px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        color: #d2f1ed;
+        font-size: 0.9rem;
+      }
+
+      .tags {
+        margin-top: 16px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tag {
+        font-size: 0.78rem;
+        padding: 5px 8px;
+        border-radius: 999px;
+        background: rgba(232, 248, 245, 0.15);
+        border: 1px solid rgba(232, 248, 245, 0.35);
+      }
+
+      .grid {
+        margin-top: 20px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px;
+        box-shadow: 0 4px 10px rgba(23, 33, 31, 0.06);
+      }
+
+      .top {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: baseline;
+        justify-content: space-between;
+      }
+
+      .source {
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      .score {
+        font-size: 0.76rem;
+        font-weight: 700;
+        color: var(--accent-2);
+        border: 1px solid #bcd7e3;
+        background: #edf6fb;
+        border-radius: 999px;
+        padding: 2px 8px;
+      }
+
+      .title {
+        margin: 8px 0 6px;
+        font-size: 1.02rem;
+      }
+
+      .title a {
+        color: #0d3f61;
+        text-decoration: none;
+      }
+
+      .title a:hover { text-decoration: underline; }
+
+      .summary {
+        color: #33423f;
+        margin: 0;
+        line-height: 1.35;
+      }
+
+      .bottom {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      .error {
+        margin-top: 12px;
+        background: #fff2e6;
+        border: 1px solid #ffd4af;
+        color: var(--warn);
+        border-radius: 10px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="hero">
+        <h1>Conversational AI / Voice Bot News Hub</h1>
+        <p class="sub">Aggregates high-signal stories across outlets, official blogs, and community sources so you can digest and forward updates fast.</p>
+
+        <div class="controls">
+          <button id="refreshBtn">Refresh Feed</button>
+          <label for="hours">Window:</label>
+          <select id="hours">
+            <option value="24">Last 24h</option>
+            <option value="48">Last 48h</option>
+            <option value="72" selected>Last 72h</option>
+            <option value="168">Last 7 days</option>
+          </select>
+          <label for="max">Max items:</label>
+          <select id="max">
+            <option value="80">80</option>
+            <option value="120" selected>120</option>
+            <option value="200">200</option>
+          </select>
+        </div>
+
+        <div class="meta">
+          <span id="status">Waiting for first refresh...</span>
+          <span id="count">0 items</span>
+          <span id="mode">Mode: detecting...</span>
+        </div>
+
+        <div id="keywords" class="tags"></div>
+      </section>
+
+      <section id="errors"></section>
+      <section id="results" class="grid"></section>
+    </main>
+
+    <script>
+      const refreshBtn = document.getElementById("refreshBtn");
+      const hoursEl = document.getElementById("hours");
+      const maxEl = document.getElementById("max");
+      const statusEl = document.getElementById("status");
+      const countEl = document.getElementById("count");
+      const modeEl = document.getElementById("mode");
+      const resultsEl = document.getElementById("results");
+      const errorsEl = document.getElementById("errors");
+      const keywordsEl = document.getElementById("keywords");
+
+      function fmtDate(raw) {
+        if (!raw) return "Unknown publish time";
+        const dt = new Date(raw);
+        if (Number.isNaN(dt.getTime())) return raw;
+        return dt.toLocaleString();
+      }
+
+      function parseTs(raw) {
+        const ts = Date.parse(raw || "");
+        return Number.isNaN(ts) ? null : ts;
+      }
+
+      function renderErrors(errors) {
+        errorsEl.innerHTML = "";
+        if (!errors || errors.length === 0) return;
+
+        const div = document.createElement("div");
+        div.className = "error";
+        div.textContent = `Some feeds failed this refresh: ${errors.slice(0, 5).join(" | ")}`;
+        errorsEl.appendChild(div);
+      }
+
+      function renderKeywords(keywords) {
+        keywordsEl.innerHTML = "";
+        (keywords || []).forEach((kw) => {
+          const span = document.createElement("span");
+          span.className = "tag";
+          span.textContent = kw;
+          keywordsEl.appendChild(span);
+        });
+      }
+
+      function renderItems(items) {
+        resultsEl.innerHTML = "";
+
+        if (!items || items.length === 0) {
+          const card = document.createElement("article");
+          card.className = "card";
+          card.textContent = "No matching items in this window yet. Try increasing the window to 7 days or refresh later.";
+          resultsEl.appendChild(card);
+          return;
+        }
+
+        items.forEach((item) => {
+          const card = document.createElement("article");
+          card.className = "card";
+
+          card.innerHTML = `
+            <div class="top">
+              <span class="source">${item.source} (${item.source_type})</span>
+              <span class="score">Priority ${item.score}</span>
+            </div>
+            <h2 class="title"><a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a></h2>
+            <p class="summary">${item.summary || "No summary available."}</p>
+            <div class="bottom">Published: ${fmtDate(item.published)}</div>
+          `;
+
+          resultsEl.appendChild(card);
+        });
+      }
+
+      function filterStaticPayload(snapshot, hours, max) {
+        const now = Date.now();
+        const cutoffMs = hours * 60 * 60 * 1000;
+        const items = (snapshot.items || [])
+          .filter((item) => {
+            const ts = parseTs(item.published);
+            if (ts === null) return true;
+            return (now - ts) <= cutoffMs;
+          })
+          .sort((a, b) => {
+            const scoreDiff = (b.score || 0) - (a.score || 0);
+            if (scoreDiff !== 0) return scoreDiff;
+            return (parseTs(b.published) || 0) - (parseTs(a.published) || 0);
+          })
+          .slice(0, max);
+
+        return {
+          generated_at: snapshot.generated_at,
+          tracked_keywords: snapshot.tracked_keywords || [],
+          errors: snapshot.errors || [],
+          count: items.length,
+          items,
+        };
+      }
+
+      async function fetchLive(hours, max) {
+        const resp = await fetch(`/api/news?hours=${encodeURIComponent(hours)}&max=${encodeURIComponent(max)}`, {
+          cache: "no-store"
+        });
+        if (!resp.ok) throw new Error(`Live API HTTP ${resp.status}`);
+        return resp.json();
+      }
+
+      async function fetchStatic(hours, max) {
+        const resp = await fetch("./news.json", { cache: "no-store" });
+        if (!resp.ok) throw new Error(`Static JSON HTTP ${resp.status}`);
+        const snapshot = await resp.json();
+        return filterStaticPayload(snapshot, Number(hours), Number(max));
+      }
+
+      async function refresh() {
+        const hours = hoursEl.value;
+        const max = maxEl.value;
+        statusEl.textContent = "Refreshing...";
+
+        try {
+          let payload;
+          try {
+            payload = await fetchLive(hours, max);
+            modeEl.textContent = "Mode: live local API";
+          } catch {
+            payload = await fetchStatic(hours, max);
+            modeEl.textContent = "Mode: static file (GitHub-friendly)";
+          }
+
+          renderKeywords(payload.tracked_keywords);
+          renderErrors(payload.errors);
+          renderItems(payload.items);
+          countEl.textContent = `${payload.count} items`;
+          statusEl.textContent = payload.generated_at
+            ? `Updated ${new Date(payload.generated_at).toLocaleString()}`
+            : "Updated";
+        } catch (err) {
+          statusEl.textContent = `Refresh failed: ${err.message}`;
+          modeEl.textContent = "Mode: no data";
+        }
+      }
+
+      refreshBtn.addEventListener("click", refresh);
+      refresh();
+      setInterval(refresh, 1000 * 60 * 10);
+    </script>
+  </body>
+</html>
