@@ -325,10 +325,10 @@
           let payload;
           try {
             payload = await fetchLive(hours, max);
-            modeEl.textContent = "Mode: live local API";
+            modeEl.textContent = "Mode: live API (Netlify/server)";
           } catch {
             payload = await fetchStatic(hours, max);
-            modeEl.textContent = "Mode: static file (GitHub-friendly)";
+            modeEl.textContent = "Mode: static snapshot fallback";
           }
 
           renderKeywords(payload.tracked_keywords);
@@ -350,3 +350,4 @@
     </script>
   </body>
 </html>
+
