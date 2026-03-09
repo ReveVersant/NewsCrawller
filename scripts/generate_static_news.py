@@ -25,13 +25,21 @@ def main() -> None:
     parser.add_argument("--max", dest="max_items", type=int, default=400, help="Max stories.")
     parser.add_argument("--topics", type=str, default="", help="Comma-separated topics override.")
     parser.add_argument("--min-score", type=int, default=None, help="Minimum quality score.")
-    parser.add_argument("--strict", action="store_true", help="Use strict relevance mode.")
+    parser.add_argument("--lane", choices=["high_signal", "discovery"], default="discovery", help="Lane preset.")
+    parser.add_argument("--strict", action="store_true", help="Force strict relevance mode.")
+    parser.add_argument("--no-strict", action="store_true", help="Force non-strict relevance mode.")
     parser.add_argument(
         "--output",
         action="append",
         help="Output JSON path. Provide more than once for multiple targets.",
     )
     args = parser.parse_args()
+
+    strict_override: bool | None = None
+    if args.strict:
+        strict_override = True
+    if args.no_strict:
+        strict_override = False
 
     topic_list = [x.strip() for x in args.topics.split(",") if x.strip()]
 
@@ -40,7 +48,8 @@ def main() -> None:
         max_items=args.max_items,
         topics=topic_list or None,
         min_score=args.min_score,
-        strict=args.strict,
+        strict=strict_override,
+        lane=args.lane,
     )
 
     outputs = resolve_outputs(args.output)

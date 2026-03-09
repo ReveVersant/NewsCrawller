@@ -197,12 +197,20 @@
     <main class="wrap">
       <section class="hero">
         <h1>News Intelligence Hub</h1>
-        <p class="sub">Track any topic, tune quality thresholds, and prioritize high-value news over noise.</p>
+        <p class="sub">Track any topic, tune quality thresholds, and switch between High Signal and Discovery lanes.</p>
 
         <div class="controls">
           <div class="field" style="grid-column: 1 / -1;">
             <label for="topicsInput">Topics (comma-separated)</label>
             <input id="topicsInput" type="text" placeholder="e.g. conversational AI, voice bots, healthcare automation" />
+          </div>
+
+          <div class="field">
+            <label for="lane">Lane</label>
+            <select id="lane">
+              <option value="high_signal">High Signal</option>
+              <option value="discovery">Discovery</option>
+            </select>
           </div>
 
           <div class="field">
@@ -225,14 +233,14 @@
           </div>
 
           <div class="field">
-            <label for="minScore">Min quality score: <span id="minScoreValue">30</span></label>
-            <input id="minScore" type="range" min="0" max="100" value="30" step="1" />
+            <label for="minScore">Min quality score: <span id="minScoreValue">45</span></label>
+            <input id="minScore" type="range" min="0" max="100" value="45" step="1" />
           </div>
 
           <div class="field">
             <label>Relevance mode</label>
             <label class="inline">
-              <input id="strictMode" type="checkbox" />
+              <input id="strictMode" type="checkbox" checked />
               <span>Strict topic matching</span>
             </label>
           </div>
@@ -265,8 +273,22 @@
         "agentic ai"
       ];
 
+      const LANE_PRESETS = {
+        high_signal: {
+          label: "High Signal",
+          minScore: 45,
+          strict: true
+        },
+        discovery: {
+          label: "Discovery",
+          minScore: 18,
+          strict: false
+        }
+      };
+
       const refreshBtn = document.getElementById("refreshBtn");
       const topicsInput = document.getElementById("topicsInput");
+      const laneEl = document.getElementById("lane");
       const hoursEl = document.getElementById("hours");
       const maxEl = document.getElementById("max");
       const minScoreEl = document.getElementById("minScore");
@@ -280,30 +302,6 @@
       const errorsEl = document.getElementById("errors");
       const keywordsEl = document.getElementById("keywords");
 
-      function readState() {
-        const saved = JSON.parse(localStorage.getItem("newsHubState") || "{}");
-        return {
-          topics: Array.isArray(saved.topics) && saved.topics.length ? saved.topics : DEFAULT_TOPICS,
-          hours: saved.hours || "72",
-          max: saved.max || "120",
-          minScore: Number.isFinite(saved.minScore) ? saved.minScore : 30,
-          strict: saved.strict === true
-        };
-      }
-
-      function writeState() {
-        localStorage.setItem(
-          "newsHubState",
-          JSON.stringify({
-            topics: parseTopics(topicsInput.value),
-            hours: hoursEl.value,
-            max: maxEl.value,
-            minScore: Number(minScoreEl.value),
-            strict: strictModeEl.checked
-          })
-        );
-      }
-
       function parseTopics(raw) {
         const unique = new Set();
         String(raw || "")
@@ -312,6 +310,41 @@
           .filter(Boolean)
           .forEach((topic) => unique.add(topic.toLowerCase()));
         return [...unique].slice(0, 12);
+      }
+
+      function applyLanePreset(lane) {
+        const preset = LANE_PRESETS[lane] || LANE_PRESETS.high_signal;
+        minScoreEl.value = String(preset.minScore);
+        minScoreValueEl.textContent = String(preset.minScore);
+        strictModeEl.checked = preset.strict;
+      }
+
+      function readState() {
+        const saved = JSON.parse(localStorage.getItem("newsHubState") || "{}");
+        const lane = saved.lane === "discovery" ? "discovery" : "high_signal";
+        const preset = LANE_PRESETS[lane];
+        return {
+          topics: Array.isArray(saved.topics) && saved.topics.length ? saved.topics : DEFAULT_TOPICS,
+          lane,
+          hours: saved.hours || "72",
+          max: saved.max || "120",
+          minScore: Number.isFinite(saved.minScore) ? saved.minScore : preset.minScore,
+          strict: typeof saved.strict === "boolean" ? saved.strict : preset.strict
+        };
+      }
+
+      function writeState() {
+        localStorage.setItem(
+          "newsHubState",
+          JSON.stringify({
+            topics: parseTopics(topicsInput.value),
+            lane: laneEl.value,
+            hours: hoursEl.value,
+            max: maxEl.value,
+            minScore: Number(minScoreEl.value),
+            strict: strictModeEl.checked
+          })
+        );
       }
 
       function fmtDate(raw) {
@@ -352,7 +385,7 @@
         if (!items || items.length === 0) {
           const card = document.createElement("article");
           card.className = "card";
-          card.textContent = "No high-value items matched these settings. Lower min quality or disable strict mode to broaden results.";
+          card.textContent = "No high-value items matched these settings. Lower min quality or switch to Discovery lane.";
           resultsEl.appendChild(card);
           return;
         }
@@ -381,7 +414,7 @@
         return topics.reduce((acc, t) => acc + (title.includes(t) ? 2 : 0) + (summary.includes(t) ? 1 : 0), 0);
       }
 
-      function filterStaticPayload(snapshot, hours, max, topics, minScore, strict) {
+      function filterStaticPayload(snapshot, hours, max, topics, minScore, strict, lane) {
         const now = Date.now();
         const cutoffMs = hours * 60 * 60 * 1000;
 
@@ -409,6 +442,7 @@
           generated_at: snapshot.generated_at,
           tracked_keywords: topics,
           topics_used: topics,
+          lane_applied: lane,
           min_score_applied: minScore,
           strict_mode: strict,
           errors: snapshot.errors || [],
@@ -417,13 +451,14 @@
         };
       }
 
-      async function fetchLive(hours, max, topics, minScore, strict) {
+      async function fetchLive(hours, max, topics, minScore, strict, lane) {
         const qs = new URLSearchParams({
           hours: String(hours),
           max: String(max),
           topics: topics.join(","),
           min_score: String(minScore),
-          strict: strict ? "1" : "0"
+          strict: strict ? "1" : "0",
+          lane
         });
 
         const resp = await fetch(`/api/news?${qs.toString()}`, { cache: "no-store" });
@@ -434,11 +469,11 @@
         return resp.json();
       }
 
-      async function fetchStatic(hours, max, topics, minScore, strict) {
+      async function fetchStatic(hours, max, topics, minScore, strict, lane) {
         const resp = await fetch("./news.json", { cache: "no-store" });
         if (!resp.ok) throw new Error(`Static JSON HTTP ${resp.status}`);
         const snapshot = await resp.json();
-        return filterStaticPayload(snapshot, Number(hours), Number(max), topics, Number(minScore), strict);
+        return filterStaticPayload(snapshot, Number(hours), Number(max), topics, Number(minScore), strict, lane);
       }
 
       async function refresh() {
@@ -449,6 +484,7 @@
         const topics = parseTopics(topicsInput.value);
         const minScore = Number(minScoreEl.value);
         const strict = strictModeEl.checked;
+        const lane = laneEl.value;
 
         statusEl.textContent = "Refreshing...";
 
@@ -456,11 +492,11 @@
           let payload;
           let liveError = null;
           try {
-            payload = await fetchLive(hours, max, topics, minScore, strict);
+            payload = await fetchLive(hours, max, topics, minScore, strict, lane);
             modeEl.textContent = "Mode: live API (Netlify/server)";
           } catch (err) {
             liveError = err;
-            payload = await fetchStatic(hours, max, topics, minScore, strict);
+            payload = await fetchStatic(hours, max, topics, minScore, strict, lane);
             modeEl.textContent = "Mode: static snapshot fallback";
           }
 
@@ -469,10 +505,12 @@
             mergedErrors.unshift(`Live API unavailable (${liveError.message}). Showing static snapshot.`);
           }
 
+          const laneName = payload.lane_applied === "discovery" ? "Discovery" : "High Signal";
+
           renderKeywords(payload.topics_used || payload.tracked_keywords || topics);
           renderErrors(mergedErrors);
           renderItems(payload.items);
-          countEl.textContent = `${payload.count} items (min quality ${payload.min_score_applied ?? minScore})`;
+          countEl.textContent = `${payload.count} items (${laneName}, min quality ${payload.min_score_applied ?? minScore})`;
           statusEl.textContent = payload.generated_at
             ? `Updated ${new Date(payload.generated_at).toLocaleString()}`
             : "Updated";
@@ -485,12 +523,18 @@
       function initializeControls() {
         const state = readState();
         topicsInput.value = state.topics.join(", ");
+        laneEl.value = state.lane;
         hoursEl.value = state.hours;
         maxEl.value = state.max;
         minScoreEl.value = String(state.minScore);
         minScoreValueEl.textContent = String(state.minScore);
         strictModeEl.checked = state.strict;
       }
+
+      laneEl.addEventListener("change", () => {
+        applyLanePreset(laneEl.value);
+        writeState();
+      });
 
       minScoreEl.addEventListener("input", () => {
         minScoreValueEl.textContent = minScoreEl.value;
@@ -509,6 +553,3 @@
     </script>
   </body>
 </html>
-
-
-

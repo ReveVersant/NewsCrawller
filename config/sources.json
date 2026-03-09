@@ -13,6 +13,10 @@
   "quality": {
     "default_min_score": 30,
     "strict_min_score": 45,
+    "high_signal_min_score": 45,
+    "high_signal_strict": true,
+    "discovery_min_score": 18,
+    "discovery_strict": false,
     "noise_terms": [
       "sponsored",
       "coupon",
@@ -61,6 +65,11 @@
       "type": "outlet"
     },
     {
+      "name": "InfoQ AI/ML",
+      "url": "https://www.infoq.com/ai-ml-data-eng/feed/",
+      "type": "outlet"
+    },
+    {
       "name": "OpenAI News",
       "url": "https://openai.com/news/rss.xml",
       "type": "official"
@@ -81,10 +90,34 @@
       "type": "official"
     },
     {
+      "name": "NVIDIA Blog",
+      "url": "https://blogs.nvidia.com/feed/",
+      "type": "official"
+    },
+    {
+      "name": "Google Cloud AI/ML Blog",
+      "url": "https://cloud.google.com/blog/products/ai-machine-learning/rss/",
+      "type": "official"
+    },
+    {
+      "name": "Google News - AI Industry Radar",
+      "url": "https://news.google.com/rss/search?q=%28artificial+intelligence+OR+enterprise+ai+OR+ai+automation%29&hl=en-US&gl=US&ceid=US:en",
+      "type": "news"
+    },
+    {
+      "name": "Google News - Enterprise Automation",
+      "url": "https://news.google.com/rss/search?q=%28enterprise+automation+OR+contact+center+automation+OR+customer+service+ai%29&hl=en-US&gl=US&ceid=US:en",
+      "type": "news"
+    },
+    {
+      "name": "Google News - Voice and Speech AI",
+      "url": "https://news.google.com/rss/search?q=%28voice+ai+OR+speech+ai+OR+voicebot+OR+text-to-speech%29&hl=en-US&gl=US&ceid=US:en",
+      "type": "news"
+    },
+    {
       "name": "HN RSS - AI",
       "url": "https://hnrss.org/newest?q=%22artificial+intelligence%22+OR+chatbot+OR+automation",
       "type": "community"
     }
   ]
 }
-

@@ -13,7 +13,7 @@ ROOT = Path(__file__).parent
 CONFIG_PATH = ROOT / "config" / "sources.json"
 WEB_DIR = ROOT / "docs"
 
-USER_AGENT = "AI-News-Hub/2.0 (+local dashboard)"
+USER_AGENT = "AI-News-Hub/2.1 (+local dashboard)"
 REQUEST_TIMEOUT_SECONDS = 12
 MAX_WORKERS = 8
 
@@ -104,6 +104,10 @@ def quality_settings(cfg: dict) -> dict:
     return {
         "default_min_score": int(quality.get("default_min_score", 30)),
         "strict_min_score": int(quality.get("strict_min_score", 45)),
+        "high_signal_min_score": int(quality.get("high_signal_min_score", 45)),
+        "high_signal_strict": bool(quality.get("high_signal_strict", True)),
+        "discovery_min_score": int(quality.get("discovery_min_score", 18)),
+        "discovery_strict": bool(quality.get("discovery_strict", False)),
         "noise_terms": [
             str(x).lower()
             for x in quality.get(
@@ -148,6 +152,10 @@ def quality_settings(cfg: dict) -> dict:
     }
 
 
+def google_news_url(query: str) -> str:
+    return f"https://news.google.com/rss/search?q={quote_plus(query)}&hl=en-US&gl=US&ceid=US:en"
+
+
 def build_dynamic_feeds(cfg: dict, topics: list[str]) -> list[dict]:
     search_cfg = cfg.get("search", {})
     if not search_cfg.get("enabled", True):
@@ -158,26 +166,52 @@ def build_dynamic_feeds(cfg: dict, topics: list[str]) -> list[dict]:
     if not chosen:
         return []
 
-    or_clause = " OR ".join(chosen)
+    query_terms = [f'"{t}"' if " " in t else t for t in chosen]
+    or_clause = " OR ".join(query_terms)
 
-    q1 = f"({or_clause})"
-    q2 = (
-        f"({or_clause}) "
-        "(acquisition OR partnership OR launch OR enterprise OR funding OR release OR integration)"
+    intent_queries = [
+        ("Google News - Topic Radar", f"({or_clause})"),
+        (
+            "Google News - Launches and Releases",
+            f"({or_clause}) (launch OR release OR roadmap OR unveiled OR announced OR preview)",
+        ),
+        (
+            "Google News - Funding and M&A",
+            f"({or_clause}) (funding OR investment OR acquisition OR merger OR buyout)",
+        ),
+        (
+            "Google News - Partnerships and Integrations",
+            f"({or_clause}) (partnership OR integration OR alliance OR collaboration)",
+        ),
+        (
+            "Google News - Enterprise Deployments",
+            f"({or_clause}) (enterprise OR deployment OR adoption OR contact center OR customer support)",
+        ),
+        (
+            "Google News - Policy and Regulation",
+            f"({or_clause}) (regulation OR policy OR compliance OR privacy OR safety)",
+        ),
+        (
+            "Google News - Research and Benchmarks",
+            f"({or_clause}) (benchmark OR paper OR evaluation OR model OR multimodal)",
+        ),
+    ]
+
+    feeds = [
+        {"name": name, "url": google_news_url(query), "type": "news"}
+        for name, query in intent_queries
+    ]
+
+    hn_query = " OR ".join(chosen[:4])
+    feeds.append(
+        {
+            "name": "HN RSS - Dynamic Topics",
+            "url": f"https://hnrss.org/newest?q={quote_plus(hn_query)}",
+            "type": "community",
+        }
     )
 
-    return [
-        {
-            "name": "Google News - Topic Search",
-            "url": f"https://news.google.com/rss/search?q={quote_plus(q1)}&hl=en-US&gl=US&ceid=US:en",
-            "type": "news",
-        },
-        {
-            "name": "Google News - High-Impact Events",
-            "url": f"https://news.google.com/rss/search?q={quote_plus(q2)}&hl=en-US&gl=US&ceid=US:en",
-            "type": "news",
-        },
-    ]
+    return feeds
 
 
 def domain_of(url: str) -> str:
@@ -230,7 +264,7 @@ def score_item(item: dict, title_hits: int, summary_hits: int, quality: dict) ->
     score += min(summary_hits * 7, 28)
 
     if title_hits + summary_hits == 0:
-        score -= 10
+        score -= 25
 
     source_type = (item.get("source_type") or "").lower()
     if source_type == "official":
@@ -355,22 +389,43 @@ def fetch_feed(feed: dict) -> tuple[list[dict], str | None]:
         return [], f"{feed['name']}: {ex}"
 
 
+def lane_defaults(quality: dict, lane: str) -> tuple[str, int, bool]:
+    lane_name = (lane or "high_signal").strip().lower()
+    if lane_name == "discovery":
+        return (
+            "discovery",
+            int(quality.get("discovery_min_score", 18)),
+            bool(quality.get("discovery_strict", False)),
+        )
+    return (
+        "high_signal",
+        int(quality.get("high_signal_min_score", quality.get("default_min_score", 45))),
+        bool(quality.get("high_signal_strict", True)),
+    )
+
+
 def collect_news(
     hours: int = 72,
     max_items: int = 150,
     topics: list[str] | None = None,
     min_score: int | None = None,
-    strict: bool = False,
+    strict: bool | None = None,
+    lane: str = "high_signal",
 ) -> dict:
     cfg = load_config()
     quality = quality_settings(cfg)
+
+    lane_name, lane_min_score, lane_strict = lane_defaults(quality, lane)
 
     topics_used = unique_terms(topics or default_topics(cfg))
     topic_terms = [x.lower() for x in topics_used]
 
     if min_score is None:
-        min_score = quality["strict_min_score"] if strict else quality["default_min_score"]
+        min_score = lane_min_score
     min_score = max(0, min(int(min_score), 100))
+
+    if strict is None:
+        strict = lane_strict
 
     feeds = list(cfg.get("feeds", []))
     feeds.extend(build_dynamic_feeds(cfg, topics_used))
@@ -443,8 +498,9 @@ def collect_news(
         "generated_at": datetime.now(UTC).isoformat(),
         "topics_used": topics_used,
         "tracked_keywords": topics_used,
+        "lane_applied": lane_name,
         "min_score_applied": min_score,
-        "strict_mode": strict,
+        "strict_mode": bool(strict),
         "count": len(final),
         "items": final,
         "errors": errors,
@@ -486,7 +542,13 @@ class HubHandler(SimpleHTTPRequestHandler):
                 except ValueError:
                     min_score = None
 
-            strict = parse_bool(query.get("strict", ["false"])[0])
+            strict_raw = query.get("strict", [None])[0]
+            strict = parse_bool(strict_raw) if strict_raw not in (None, "") else None
+
+            lane = (query.get("lane", ["high_signal"])[0] or "high_signal").strip().lower()
+            if lane not in {"high_signal", "discovery"}:
+                lane = "high_signal"
+
             topics_raw = query.get("topics", [""])[0]
             topics = unique_terms(split_topics(topics_raw))
 
@@ -496,6 +558,7 @@ class HubHandler(SimpleHTTPRequestHandler):
                 topics=topics or None,
                 min_score=min_score,
                 strict=strict,
+                lane=lane,
             )
             body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
 
@@ -524,4 +587,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
