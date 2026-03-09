@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-09T23:14:56.666967+00:00",
+  "generated_at": "2026-03-09T23:19:48.895840+00:00",
   "topics_used": [
     "conversational ai",
     "chatbots",
@@ -17,7 +17,7 @@
   "lane_applied": "discovery",
   "min_score_applied": 18,
   "strict_mode": false,
-  "count": 99,
+  "count": 96,
   "items": [
     {
       "title": "After Europe, WhatsApp will let rival AI companies offer chatbots in Brazil",
@@ -537,17 +537,6 @@
       "topic_hits": 2
     },
     {
-      "title": "New York Legislature Advances Bill To Prevent AI Chatbots From Providing Medical, Legal Advice to Users - The New York Sun",
-      "summary": "New York Legislature Advances Bill To Prevent AI Chatbots From Providing Medical, Legal Advice to Users &nbsp;&nbsp; The New York Sun",
-      "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOSjd4Vi0zcjZJWW1CQTFIamJyUHJldUx2cU9icjZieFNMRXRZcFB3RE9ubC1ZWS1PcGJFZm9ZcTlJRG55TUlaSThka0JJcDQ3VVF3YmFLRHRFeHl6MmR2YUszSDVWeGxpSlJ6YVZpQTBLNlhJcTFObl82SHBHZ2U2ajAybHkzblkxbU82NDMyUkJXNlU2SDlMdnAySEZNd2pTQU96S0JLMnF5VW83cTl2c2xNWVl5b2pzZGIycUQ5bXZRYjFSRTM5aTJSeUg?oc=5",
-      "published": "Fri, 06 Mar 2026 09:06:00 GMT",
-      "source": "Google News - Topic Radar",
-      "source_type": "news",
-      "score": 31,
-      "domain": "news.google.com",
-      "topic_hits": 2
-    },
-    {
       "title": "Meta Opens WhatsApp Business API to Rival AI Chatbots in Europe Amid EU Antitrust Scrutiny - ITP.net",
       "summary": "Meta Opens WhatsApp Business API to Rival AI Chatbots in Europe Amid EU Antitrust Scrutiny &nbsp;&nbsp; ITP.net",
       "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPd2xmYjRLdVNCWHRUMExzQjlmWHd3ZjQ0UHdST2lNRGluZTAyOUhNZE1lQk1qWTFoZ3lBbzBtbUh2X2VpajIzYzdVS3FjQnBOTFB2OFZwQ1lySmVfc2dJdTFyUVd3aFRQTDV4ZEh0UnB3M1ZselR3T09JeE1zamVUNlcyM094ZGctMnh5bFhZTnhFM1ZpbzZfLUtDY3dWZzE1STgzdkR5WHJFSXJnajdsWDZJZkFKaEp2OXN5LThwRWwwZw?oc=5",
@@ -682,7 +671,7 @@
     {
       "title": "Meta to Open Up WhatsApp to Rival AI Chatbots for a Fee Following EU Objections - WSJ",
       "summary": "Meta to Open Up WhatsApp to Rival AI Chatbots for a Fee Following EU Objections &nbsp;&nbsp; WSJ",
-      "url": "https://news.google.com/rss/articles/CBMivgNBVV95cUxOd1RTV24wNFpCSzYxelRtNmJCSld2Sm5SdDNXek5hR1FKQ2N2WVdJUXFpVm55dFZKNEdUSmhkU3JsX2lRSFpwd1JJb2oxcUcwN3ZsNkVzT2lQT3pTUlBsWkJCT01mbW1FSWlzM05rbG80RlRqYmhkZVJyUjdOaFZkeV9mc3AwMzRyb01KTGFVSVhiTjJWaHBNcmhUNkVybXpjdGtKRFVJYmU3NnZZeWpGUkFXM2p4SzVKLWZFcU1PVGJ3N2hzSzVyMTRMbVQyaHItclVGTFdad0ZJTmxhQVdKQU05TUpjRDZwS0tkcUZJbEYteHBzQ3RldEhKbkFnUnZjR0ZJNWZ5Zk84d1NIYV8ybEtHS2p4WnFGRll6MlZDS0l6c09sTUVRaE10cnlDN2kwM1dSaWVESEpYNmZsZHZNcHhhdllyRXM0NGFDalAtelhTa0VWempET3NkczI3M3JOVnV4Uk9zZDdRRE1ySjUyZGxDV1Z6Wmp6M2s1b1NwRDFHczlFVmxxS1EyZUpoWXhhMWEyMDRQQmVlX2dmOUZqSTc0c3FlSEVrNkhmM1RyX2pXOXlTRmpmWEowNWhJdw?oc=5",
+      "url": "https://news.google.com/rss/articles/CBMivgNBVV95cUxOUG8yTzBQV3RLYk1ybGhwQnpORDVDZEc5UnhTejFJc3ZjdzhuUmc3dFA0endYS1NrN3JsdHE4ajVvcG9WVmlYZ01mUjVkLWpoajZzTFRMeFJoX0d5VUt3Z0ZoM09TbUZVWTVDRExhR1JZell0Zlowby01ZTd5aV8xamszTEFra2d5cTdkVDcxdzQwVXdfU2NVQ1lIWUI0WHVmNWFhajNidG5vUEt2QjNKM2lobFR2aGlsQnVMcnlFUTFLeklEcmNBSDZxdjRVVEdqY2hvdEF0RHI2eHNhVmJQM3lOazJ1a2ZPd0VQU3ZsWWhMbWVyN242VTFnQjJsZXRlcko1U2NGOHZJUDF3VnVQVllNbjljWmI2aE91RVNoNmFYdUhTd3FHb01WakwtNkk4TnFDR0sxcHZTdjg2aW5rZjZCRmRJUEFGbURidzVXWGZabVhRNWtxdG1VeS1YY2tpdm5ZVmI4NWEybWd0aEVvdzU3NkN4YjNNbVZWMkZXOEFUT18yMFBSSEJyZXZZdDdRYV9UbV9jaFFyaWJQRHl2amRINktqaWpObEFPLTNpNFVYVUZNQjY3dkI3XzctQQ?oc=5",
       "published": "Thu, 05 Mar 2026 15:42:00 GMT",
       "source": "Google News - Topic Radar",
       "source_type": "news",
@@ -911,17 +900,6 @@
       "topic_hits": 2
     },
     {
-      "title": "Apple Postpones Smart Home Display Launch as It Waits for New AI and Siri",
-      "summary": "Article URL: https://www.bloomberg.com/news/articles/2026-03-09/apple-postpones-smart-home-display-launch-as-it-waits-for-new-ai-and-siri Comments URL: https://news.ycombinator.com/item?id=47315995 Points: 1 # Comments: 0",
-      "url": "https://www.bloomberg.com/news/articles/2026-03-09/apple-postpones-smart-home-display-launch-as-it-waits-for-new-ai-and-siri",
-      "published": "Mon, 09 Mar 2026 21:46:09 +0000",
-      "source": "HN RSS - Dynamic Topics",
-      "source_type": "community",
-      "score": 29,
-      "domain": "bloomberg.com",
-      "topic_hits": 0
-    },
-    {
       "title": "OpenAI and Google employees rush to Anthropic’s defense in DOD lawsuit",
       "summary": "More than 30 OpenAI and Google DeepMind employees signed onto a statement supporting Anthropic's lawsuit against the Defense Department after the agency labeled the AI firm a supply-chain risk, according to court filings.",
       "url": "https://techcrunch.com/2026/03/09/openai-and-google-employees-rush-to-anthropics-defense-in-dod-lawsuit/",
@@ -1054,17 +1032,6 @@
       "topic_hits": 2
     },
     {
-      "title": "Meta to Create New Applied AI Engineering Organization",
-      "summary": "Article URL: https://www.wsj.com/tech/ai/meta-to-create-new-applied-ai-engineering-organization-in-reality-labs-division-d41c4a69 Comments URL: https://news.ycombinator.com/item?id=47316130 Points: 1 # Comments: 0",
-      "url": "https://www.wsj.com/tech/ai/meta-to-create-new-applied-ai-engineering-organization-in-reality-labs-division-d41c4a69",
-      "published": "Mon, 09 Mar 2026 21:55:31 +0000",
-      "source": "HN RSS - Dynamic Topics",
-      "source_type": "community",
-      "score": 21,
-      "domain": "wsj.com",
-      "topic_hits": 0
-    },
-    {
       "title": "OpenAI to acquire Promptfoo",
       "summary": "OpenAI is acquiring Promptfoo, an AI security platform that helps enterprises identify and remediate vulnerabilities in AI systems during development.",
       "url": "https://openai.com/index/openai-to-acquire-promptfoo",
@@ -1110,7 +1077,6 @@
     }
   ],
   "errors": [
-    "InfoQ AI/ML: HTTP Error 404: 404",
     "Google Cloud AI/ML Blog: syntax error: line 1, column 0"
   ]
 }

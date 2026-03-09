@@ -202,7 +202,7 @@ def build_dynamic_feeds(cfg: dict, topics: list[str]) -> list[dict]:
         for name, query in intent_queries
     ]
 
-    hn_query = " OR ".join(chosen[:4])
+    hn_query = chosen[0]
     feeds.append(
         {
             "name": "HN RSS - Dynamic Topics",
@@ -587,3 +587,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

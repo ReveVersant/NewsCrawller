@@ -217,7 +217,7 @@ function buildDynamicFeeds(cfg, topics) {
     type: "news",
   }));
 
-  const hnQuery = chosen.slice(0, 4).join(" OR ");
+  const hnQuery = chosen[0];
   feeds.push({
     name: "HN RSS - Dynamic Topics",
     url: `https://hnrss.org/newest?q=${encodeURIComponent(hnQuery)}`,
@@ -353,7 +353,7 @@ const FALLBACK_CONFIG = {
     { name: "VentureBeat AI", url: "https://venturebeat.com/category/ai/feed/", type: "outlet" },
     { name: "TechCrunch AI", url: "https://techcrunch.com/category/artificial-intelligence/feed/", type: "outlet" },
     { name: "The Verge AI", url: "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml", type: "outlet" },
-    { name: "InfoQ AI/ML", url: "https://www.infoq.com/ai-ml-data-eng/feed/", type: "outlet" },
+    { name: "InfoQ AI/ML", url: "https://www.infoq.com/feed/", type: "outlet" },
     { name: "OpenAI News", url: "https://openai.com/news/rss.xml", type: "official" },
     { name: "Google DeepMind Blog", url: "https://deepmind.google/blog/rss.xml", type: "official" },
     { name: "Microsoft AI Blog", url: "https://blogs.microsoft.com/ai/feed/", type: "official" },
@@ -363,7 +363,7 @@ const FALLBACK_CONFIG = {
     { name: "Google News - AI Industry Radar", url: "https://news.google.com/rss/search?q=%28artificial+intelligence+OR+enterprise+ai+OR+ai+automation%29&hl=en-US&gl=US&ceid=US:en", type: "news" },
     { name: "Google News - Enterprise Automation", url: "https://news.google.com/rss/search?q=%28enterprise+automation+OR+contact+center+automation+OR+customer+service+ai%29&hl=en-US&gl=US&ceid=US:en", type: "news" },
     { name: "Google News - Voice and Speech AI", url: "https://news.google.com/rss/search?q=%28voice+ai+OR+speech+ai+OR+voicebot+OR+text-to-speech%29&hl=en-US&gl=US&ceid=US:en", type: "news" },
-    { name: "HN RSS - AI", url: "https://hnrss.org/newest?q=%22artificial+intelligence%22+OR+chatbot+OR+automation", type: "community" },
+    { name: "HN RSS - AI", url: "https://hnrss.org/newest?q=artificial+intelligence", type: "community" },
   ],
 };
 
@@ -524,3 +524,5 @@ exports.handler = async (event) => {
     };
   }
 };
+
+
