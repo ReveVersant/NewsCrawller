@@ -7,3 +7,7 @@
   to = "/.netlify/functions/news"
   status = 200
   force = true
+
+[functions]
+  included_files = ["config/**"]
+

@@ -297,9 +297,20 @@ async function fetchFeed(feed) {
 }
 
 function loadConfig() {
-  const configPath = path.resolve(__dirname, "../../config/sources.json");
-  const raw = fs.readFileSync(configPath, "utf8").replace(/^\uFEFF/, "");
-  return JSON.parse(raw);
+  const candidates = [
+    path.resolve(process.cwd(), "config/sources.json"),
+    path.resolve(__dirname, "config/sources.json"),
+    path.resolve(__dirname, "../config/sources.json"),
+    path.resolve(__dirname, "../../config/sources.json"),
+  ];
+
+  for (const configPath of candidates) {
+    if (!fs.existsSync(configPath)) continue;
+    const raw = fs.readFileSync(configPath, "utf8").replace(/^\uFEFF/, "");
+    return JSON.parse(raw);
+  }
+
+  throw new Error("Config file not found. Expected config/sources.json in function bundle.");
 }
 
 function parseBool(raw) {
@@ -429,4 +440,5 @@ exports.handler = async (event) => {
     };
   }
 };
+
 
