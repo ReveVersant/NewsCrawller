@@ -207,7 +207,7 @@ function scoreItem(item, titleHits, summaryHits, quality) {
   score += Math.min(titleHits * 18, 54);
   score += Math.min(summaryHits * 7, 28);
 
-  if (titleHits + summaryHits === 0) score -= 10;
+  if (titleHits + summaryHits === 0) score -= 25;
 
   const sourceType = String(item.source_type || "").toLowerCase();
   if (sourceType === "official") score += 16;
@@ -429,3 +429,4 @@ exports.handler = async (event) => {
     };
   }
 };
+

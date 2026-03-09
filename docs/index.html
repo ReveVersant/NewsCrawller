@@ -287,7 +287,7 @@
           hours: saved.hours || "72",
           max: saved.max || "120",
           minScore: Number.isFinite(saved.minScore) ? saved.minScore : 30,
-          strict: saved.strict !== false
+          strict: saved.strict === true
         };
       }
 
@@ -388,7 +388,8 @@
         const items = (snapshot.items || [])
           .map((item) => {
             const hits = localTopicHits(item, topics);
-            const adjusted = (Number(item.score) || 0) + (hits * 6);
+            const base = Number(item.score) || 0;
+            const adjusted = base + (hits * 8) - (hits === 0 ? 20 : 0);
             return { ...item, score: adjusted };
           })
           .filter((item) => {
@@ -426,7 +427,10 @@
         });
 
         const resp = await fetch(`/api/news?${qs.toString()}`, { cache: "no-store" });
-        if (!resp.ok) throw new Error(`Live API HTTP ${resp.status}`);
+        if (!resp.ok) {
+          const msg = (await resp.text()).slice(0, 160);
+          throw new Error(`Live API HTTP ${resp.status}${msg ? `: ${msg}` : ""}`);
+        }
         return resp.json();
       }
 
@@ -450,16 +454,23 @@
 
         try {
           let payload;
+          let liveError = null;
           try {
             payload = await fetchLive(hours, max, topics, minScore, strict);
             modeEl.textContent = "Mode: live API (Netlify/server)";
-          } catch {
+          } catch (err) {
+            liveError = err;
             payload = await fetchStatic(hours, max, topics, minScore, strict);
             modeEl.textContent = "Mode: static snapshot fallback";
           }
 
+          const mergedErrors = [...(payload.errors || [])];
+          if (liveError) {
+            mergedErrors.unshift(`Live API unavailable (${liveError.message}). Showing static snapshot.`);
+          }
+
           renderKeywords(payload.topics_used || payload.tracked_keywords || topics);
-          renderErrors(payload.errors);
+          renderErrors(mergedErrors);
           renderItems(payload.items);
           countEl.textContent = `${payload.count} items (min quality ${payload.min_score_applied ?? minScore})`;
           statusEl.textContent = payload.generated_at
@@ -498,4 +509,6 @@
     </script>
   </body>
 </html>
+
+
 
