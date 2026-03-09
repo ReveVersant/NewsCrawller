@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { XMLParser } = require("fast-xml-parser");
 
-const USER_AGENT = "AI-News-Hub-Netlify/1.0";
+const USER_AGENT = "AI-News-Hub-Netlify/2.0";
 const REQUEST_TIMEOUT_MS = 12000;
 
 const XML = new XMLParser({
@@ -24,6 +24,33 @@ function cleanText(value) {
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function splitTopics(raw) {
+  return String(raw || "")
+    .split(/[\n,]+/)
+    .map((x) => x.trim())
+    .filter(Boolean);
+}
+
+function uniqueTerms(terms, maxTerms = 12) {
+  const out = [];
+  const seen = new Set();
+
+  for (const term of asArray(terms)) {
+    const cleaned = String(term).replace(/\s+/g, " ").trim();
+    if (!cleaned) continue;
+
+    const key = cleaned.toLowerCase();
+    if (seen.has(key)) continue;
+
+    seen.add(key);
+    out.push(cleaned);
+
+    if (out.length >= maxTerms) break;
+  }
+
+  return out;
 }
 
 function getText(value) {
@@ -74,30 +101,134 @@ function parseDate(raw) {
   return new Date(ts);
 }
 
-function scoreItem(item, trackedKeywords) {
+function domainOf(rawUrl) {
+  try {
+    const url = new URL(rawUrl);
+    return url.hostname.replace(/^www\./, "").toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
+function domainMatch(domain, allowed) {
+  return asArray(allowed).some((base) => domain === base || domain.endsWith(`.${base}`));
+}
+
+function normalizeTitle(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function countTopicHits(title, summary, topics) {
+  const titleHits = topics.filter((kw) => kw && title.includes(kw)).length;
+  const summaryHits = topics.filter((kw) => kw && summary.includes(kw)).length;
+  return { titleHits, summaryHits };
+}
+
+function qualitySettings(cfg) {
+  const quality = cfg.quality || {};
+  return {
+    default_min_score: Number.parseInt(quality.default_min_score || 30, 10),
+    strict_min_score: Number.parseInt(quality.strict_min_score || 45, 10),
+    noise_terms: asArray(quality.noise_terms || [
+      "sponsored",
+      "coupon",
+      "discount",
+      "giveaway",
+      "promo",
+      "rumor",
+      "roundup",
+      "listicle",
+      "op-ed",
+    ]).map((x) => String(x).toLowerCase()),
+    high_value_domains: asArray(quality.high_value_domains || [
+      "openai.com",
+      "anthropic.com",
+      "googleblog.com",
+      "deepmind.google",
+      "microsoft.com",
+      "aws.amazon.com",
+      "venturebeat.com",
+      "techcrunch.com",
+      "reuters.com",
+      "ft.com",
+      "wsj.com",
+      "bloomberg.com",
+    ]).map((x) => String(x).toLowerCase()),
+    low_value_domains: asArray(quality.low_value_domains || ["youtube.com", "youtu.be", "tiktok.com"]).map((x) => String(x).toLowerCase()),
+  };
+}
+
+function defaultTopics(cfg) {
+  return uniqueTerms(cfg.default_topics || cfg.tracked_keywords || []);
+}
+
+function buildGoogleNewsUrl(query) {
+  return `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
+}
+
+function buildDynamicFeeds(cfg, topics) {
+  const searchCfg = cfg.search || {};
+  if (searchCfg.enabled === false) return [];
+
+  const maxTopics = Number.parseInt(searchCfg.max_topics || 8, 10);
+  const chosen = topics.slice(0, Math.max(1, maxTopics));
+  if (chosen.length === 0) return [];
+
+  const orClause = chosen.join(" OR ");
+  const q1 = `(${orClause})`;
+  const q2 = `(${orClause}) (acquisition OR partnership OR launch OR enterprise OR funding OR release OR integration)`;
+
+  return [
+    { name: "Google News - Topic Search", url: buildGoogleNewsUrl(q1), type: "news" },
+    { name: "Google News - High-Impact Events", url: buildGoogleNewsUrl(q2), type: "news" },
+  ];
+}
+
+function scoreItem(item, titleHits, summaryHits, quality) {
   let score = 0;
+
+  const title = String(item.title || "").toLowerCase();
+  const summary = String(item.summary || "").toLowerCase();
+  const blob = `${title} ${summary}`;
 
   const published = parseDate(item.published);
   if (published) {
     const ageMs = Date.now() - published.getTime();
-    if (ageMs <= 6 * 3600 * 1000) score += 35;
-    else if (ageMs <= 24 * 3600 * 1000) score += 25;
-    else if (ageMs <= 72 * 3600 * 1000) score += 15;
+    if (ageMs <= 6 * 3600 * 1000) score += 28;
+    else if (ageMs <= 24 * 3600 * 1000) score += 20;
+    else if (ageMs <= 72 * 3600 * 1000) score += 12;
+    else if (ageMs <= 168 * 3600 * 1000) score += 6;
   }
 
-  const blob = `${item.title || ""} ${item.summary || ""}`.toLowerCase();
-  let hits = 0;
-  for (const kw of trackedKeywords) {
-    if (blob.includes(kw)) hits += 1;
-  }
-  score += Math.min(hits * 5, 40);
+  score += Math.min(titleHits * 18, 54);
+  score += Math.min(summaryHits * 7, 28);
+
+  if (titleHits + summaryHits === 0) score -= 10;
 
   const sourceType = String(item.source_type || "").toLowerCase();
-  if (sourceType === "official") score += 15;
-  else if (sourceType === "company") score += 10;
-  else if (sourceType === "outlet") score += 8;
+  if (sourceType === "official") score += 16;
+  else if (sourceType === "company") score += 12;
+  else if (sourceType === "outlet") score += 10;
+  else if (sourceType === "community") score += 4;
 
-  return score;
+  const domain = domainOf(item.url || "");
+  if (domainMatch(domain, quality.high_value_domains)) score += 14;
+  if (domainMatch(domain, quality.low_value_domains)) score -= 18;
+
+  const noiseHits = quality.noise_terms.filter((term) => blob.includes(term)).length;
+  score -= Math.min(noiseHits * 10, 30);
+
+  if (["acquisition", "partnership", "funding", "launch", "release", "integration"].some((x) => blob.includes(x))) {
+    score += 8;
+  }
+
+  if (String(item.title || "").length < 40) score -= 4;
+
+  return Math.trunc(score);
 }
 
 function parseRss(rssRoot, sourceName, sourceType) {
@@ -124,10 +255,9 @@ function parseAtom(feedRoot, sourceName, sourceType) {
       const title = cleanText(getText(entry.title));
       const summary = cleanText(getText(entry.summary || entry.content));
 
-      let url = "";
       const links = asArray(entry.link);
       const preferred = links.find((lnk) => !lnk?.rel || lnk.rel === "alternate") || links[0];
-      url = cleanText(getLink(preferred));
+      const url = cleanText(getLink(preferred));
 
       const published = cleanText(getText(entry.published || entry.updated));
       return { title, summary, url, published, source: sourceName, source_type: sourceType };
@@ -138,13 +268,8 @@ function parseAtom(feedRoot, sourceName, sourceType) {
 function parseFeed(xml, sourceName, sourceType) {
   const root = XML.parse(xml);
 
-  if (root?.rss?.channel) {
-    return parseRss(root.rss, sourceName, sourceType);
-  }
-
-  if (root?.feed?.entry) {
-    return parseAtom(root.feed, sourceName, sourceType);
-  }
+  if (root?.rss?.channel) return parseRss(root.rss, sourceName, sourceType);
+  if (root?.feed?.entry) return parseAtom(root.feed, sourceName, sourceType);
 
   return [];
 }
@@ -159,9 +284,7 @@ async function fetchFeed(feed) {
       signal: controller.signal,
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
     const payload = await response.text();
     const items = parseFeed(payload, feed.name, feed.type || "outlet");
@@ -179,23 +302,36 @@ function loadConfig() {
   return JSON.parse(raw);
 }
 
-async function collectNews(hours = 72, maxItems = 150) {
+function parseBool(raw) {
+  return ["1", "true", "yes", "on", "high", "strict"].includes(String(raw || "").toLowerCase());
+}
+
+async function collectNews({ hours = 72, maxItems = 150, topics = null, minScore = null, strict = false } = {}) {
   const cfg = loadConfig();
-  const feeds = asArray(cfg.feeds);
-  const trackedKeywords = asArray(cfg.tracked_keywords).map((kw) => String(kw).toLowerCase());
+  const quality = qualitySettings(cfg);
+
+  const topicsUsed = uniqueTerms((topics && topics.length ? topics : defaultTopics(cfg)));
+  const topicTerms = topicsUsed.map((x) => x.toLowerCase());
+
+  let appliedMinScore = minScore;
+  if (appliedMinScore == null || Number.isNaN(Number(appliedMinScore))) {
+    appliedMinScore = strict ? quality.strict_min_score : quality.default_min_score;
+  }
+  appliedMinScore = Math.max(0, Math.min(100, Number.parseInt(appliedMinScore, 10)));
+
+  const feeds = asArray(cfg.feeds).concat(buildDynamicFeeds(cfg, topicsUsed));
   const cutoff = Date.now() - hours * 3600 * 1000;
 
   const results = await Promise.all(feeds.map((feed) => fetchFeed(feed)));
 
   const allItems = [];
   const errors = [];
-
   for (const result of results) {
     if (result.error) errors.push(result.error);
     allItems.push(...result.items);
   }
 
-  const dedupe = new Map();
+  const byLink = new Map();
 
   for (const item of allItems) {
     const link = String(item.url || "").trim();
@@ -204,41 +340,75 @@ async function collectNews(hours = 72, maxItems = 150) {
     const published = parseDate(item.published);
     if (published && published.getTime() < cutoff) continue;
 
-    const key = link.toLowerCase().replace(/\/$/, "");
-    item.score = scoreItem(item, trackedKeywords);
+    const titleLower = String(item.title || "").toLowerCase();
+    const summaryLower = String(item.summary || "").toLowerCase();
+    const { titleHits, summaryHits } = countTopicHits(titleLower, summaryLower, topicTerms);
 
-    const existing = dedupe.get(key);
-    if (!existing || item.score > existing.score) {
-      dedupe.set(key, item);
+    if (strict && titleHits + summaryHits === 0) continue;
+
+    const score = scoreItem(item, titleHits, summaryHits, quality);
+    if (score < appliedMinScore) continue;
+
+    const domain = domainOf(link);
+    const enriched = { ...item, score, domain, topic_hits: titleHits + summaryHits };
+
+    const key = link.toLowerCase().replace(/\/$/, "");
+    const existing = byLink.get(key);
+    if (!existing || enriched.score > existing.score) {
+      byLink.set(key, enriched);
     }
   }
 
-  const items = Array.from(dedupe.values())
-    .sort((a, b) => {
-      const scoreDiff = (b.score || 0) - (a.score || 0);
-      if (scoreDiff !== 0) return scoreDiff;
-      return (parseDate(b.published)?.getTime() || 0) - (parseDate(a.published)?.getTime() || 0);
-    })
-    .slice(0, maxItems);
+  const ranked = Array.from(byLink.values()).sort((a, b) => {
+    const scoreDiff = (b.score || 0) - (a.score || 0);
+    if (scoreDiff !== 0) return scoreDiff;
+    return (parseDate(b.published)?.getTime() || 0) - (parseDate(a.published)?.getTime() || 0);
+  });
+
+  const final = [];
+  const seenTitles = new Set();
+
+  for (const item of ranked) {
+    const key = normalizeTitle(item.title || "");
+    if (key && seenTitles.has(key)) continue;
+    if (key) seenTitles.add(key);
+    final.push(item);
+    if (final.length >= maxItems) break;
+  }
 
   return {
     generated_at: new Date().toISOString(),
-    tracked_keywords: cfg.tracked_keywords || [],
-    count: items.length,
-    items,
+    topics_used: topicsUsed,
+    tracked_keywords: topicsUsed,
+    min_score_applied: appliedMinScore,
+    strict_mode: strict,
+    count: final.length,
+    items: final,
     errors,
   };
 }
 
 exports.handler = async (event) => {
   try {
-    const hoursParam = Number.parseInt(event.queryStringParameters?.hours || "72", 10);
-    const maxParam = Number.parseInt(event.queryStringParameters?.max || "150", 10);
+    const qs = event.queryStringParameters || {};
+
+    const hoursParam = Number.parseInt(qs.hours || "72", 10);
+    const maxParam = Number.parseInt(qs.max || "150", 10);
+    const minScoreParam = qs.min_score == null || qs.min_score === "" ? null : Number.parseInt(qs.min_score, 10);
 
     const hours = Number.isFinite(hoursParam) ? Math.max(1, Math.min(hoursParam, 24 * 14)) : 72;
     const maxItems = Number.isFinite(maxParam) ? Math.max(10, Math.min(maxParam, 400)) : 150;
 
-    const payload = await collectNews(hours, maxItems);
+    const strict = parseBool(qs.strict);
+    const topics = uniqueTerms(splitTopics(qs.topics || ""));
+
+    const payload = await collectNews({
+      hours,
+      maxItems,
+      topics: topics.length ? topics : null,
+      minScore: Number.isFinite(minScoreParam) ? minScoreParam : null,
+      strict,
+    });
 
     return {
       statusCode: 200,

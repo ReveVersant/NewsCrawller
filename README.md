@@ -1,23 +1,24 @@
-# Conversational AI News Hub
+# News Intelligence Hub
 
-A news hub for early updates on conversational AI, chatbots, voice bots, and digital automation.
+Topic-driven news scraping/aggregation with user-controlled quality filtering.
 
-## Live Hosting Options
-- Local live API: `py -3 server.py`
-- Netlify live API: serverless function at `/api/news` (fresh feed pulls on each refresh)
-- Static fallback: `docs/news.json`
+## What Changed
+- Topics are editable in the UI (comma-separated).
+- Quality scoring/filtering is user-controllable:
+  - `Min quality score` slider
+  - `Strict topic matching` toggle
+- Dynamic topic search feed is generated each refresh (Google News RSS query from your topics).
+- Noise reduction is built in via quality heuristics (domain weighting, noise-term penalties, dedupe).
 
-## Netlify (Non-Static) Setup
-This repo is configured for live Netlify fetching.
-
+## Live Netlify Setup
 1. Connect repo `ReveVersant/NewsCrawller` in Netlify.
-2. Site settings should resolve from `netlify.toml` automatically:
-   - Publish directory: `docs`
-   - Functions directory: `netlify/functions`
-3. Deploy the site.
-4. Open your Netlify URL and click `Refresh Feed`.
+2. Netlify reads [netlify.toml](./netlify.toml):
+   - publish: `docs`
+   - functions: `netlify/functions`
+3. Deploy and open your Netlify URL.
+4. Use the controls at the top of the page to tune topics and quality.
 
-Netlify route mapping:
+Route mapping:
 - `/api/news` -> `/.netlify/functions/news`
 
 ## Local Live Mode
@@ -26,13 +27,14 @@ py -3 server.py
 ```
 Open [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
-## Manual Static Snapshot Refresh (Optional)
-If you want a backup snapshot:
+## Optional Static Snapshot
 ```powershell
-py -3 scripts/generate_static_news.py
+py -3 scripts/generate_static_news.py --strict --min-score 60
 ```
 
-## Customize Sources
-Edit `config/sources.json`:
-- `tracked_keywords`: relevance terms.
-- `feeds`: RSS/Atom feeds.
+## Config
+Edit [config/sources.json](./config/sources.json):
+- `default_topics`
+- `search`
+- `quality`
+- `feeds`

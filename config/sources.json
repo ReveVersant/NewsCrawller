@@ -1,60 +1,50 @@
-﻿{
-  "tracked_keywords": [
+{
+  "default_topics": [
     "conversational ai",
-    "chatbot",
     "chatbots",
-    "voice bot",
-    "voicebot",
-    "voice ai",
+    "voice bots",
     "digital automation",
-    "customer service ai",
-    "contact center ai",
-    "agentic ai",
-    "nvidia personaplex",
-    "personaplex",
-    "elevenlabs",
-    "murf",
-    "cognigy",
-    "nice",
-    "voiceflow",
-    "optus"
+    "contact center ai"
   ],
+  "search": {
+    "enabled": true,
+    "max_topics": 8
+  },
+  "quality": {
+    "default_min_score": 30,
+    "strict_min_score": 45,
+    "noise_terms": [
+      "sponsored",
+      "coupon",
+      "discount",
+      "giveaway",
+      "promo",
+      "rumor",
+      "roundup",
+      "listicle",
+      "op-ed"
+    ],
+    "high_value_domains": [
+      "openai.com",
+      "anthropic.com",
+      "googleblog.com",
+      "deepmind.google",
+      "microsoft.com",
+      "aws.amazon.com",
+      "venturebeat.com",
+      "techcrunch.com",
+      "reuters.com",
+      "ft.com",
+      "wsj.com",
+      "bloomberg.com"
+    ],
+    "low_value_domains": [
+      "youtube.com",
+      "youtu.be",
+      "tiktok.com"
+    ]
+  },
   "feeds": [
-    {
-      "name": "Google News - Conversational AI",
-      "url": "https://news.google.com/rss/search?q=%28conversational+AI+OR+chatbot+OR+voicebot+OR+voice+AI+OR+customer+service+AI+OR+digital+automation%29&hl=en-US&gl=US&ceid=US:en",
-      "type": "news"
-    },
-    {
-      "name": "Google News - NVIDIA PersonaPlex",
-      "url": "https://news.google.com/rss/search?q=%28nvidia+personaplex+OR+nvidia+voice+AI+OR+nvidia+conversational+AI%29&hl=en-US&gl=US&ceid=US:en",
-      "type": "company"
-    },
-    {
-      "name": "Google News - ElevenLabs",
-      "url": "https://news.google.com/rss/search?q=%28elevenlabs+voice+ai+OR+elevenlabs+api+OR+elevenlabs+agent%29&hl=en-US&gl=US&ceid=US:en",
-      "type": "company"
-    },
-    {
-      "name": "Google News - Murf",
-      "url": "https://news.google.com/rss/search?q=%28murf+ai+OR+murf+voice+ai%29&hl=en-US&gl=US&ceid=US:en",
-      "type": "company"
-    },
-    {
-      "name": "Google News - Cognigy",
-      "url": "https://news.google.com/rss/search?q=%28cognigy+OR+conversational+automation%29&hl=en-US&gl=US&ceid=US:en",
-      "type": "company"
-    },
-    {
-      "name": "Google News - NICE",
-      "url": "https://news.google.com/rss/search?q=%28NICE+acquisition+OR+NICE+contact+center+AI%29&hl=en-US&gl=US&ceid=US:en",
-      "type": "company"
-    },
-    {
-      "name": "Google News - Voiceflow and Optus",
-      "url": "https://news.google.com/rss/search?q=%28voiceflow+OR+optus+voiceflow+partnership%29&hl=en-US&gl=US&ceid=US:en",
-      "type": "company"
-    },
     {
       "name": "VentureBeat AI",
       "url": "https://venturebeat.com/category/ai/feed/",
@@ -86,9 +76,15 @@
       "type": "official"
     },
     {
-      "name": "HN RSS - Voice AI",
-      "url": "https://hnrss.org/newest?q=%22voice+AI%22+OR+chatbot+OR+conversational+AI",
+      "name": "AWS Machine Learning Blog",
+      "url": "https://aws.amazon.com/blogs/machine-learning/feed/",
+      "type": "official"
+    },
+    {
+      "name": "HN RSS - AI",
+      "url": "https://hnrss.org/newest?q=%22artificial+intelligence%22+OR+chatbot+OR+automation",
       "type": "community"
     }
   ]
 }
+

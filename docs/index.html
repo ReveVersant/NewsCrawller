@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Conversational AI News Hub</title>
+    <title>News Intelligence Hub</title>
     <style>
       :root {
         --bg: #f3f7f3;
@@ -26,7 +26,7 @@
       }
 
       .wrap {
-        width: min(1100px, 96vw);
+        width: min(1150px, 96vw);
         margin: 24px auto 40px;
       }
 
@@ -51,19 +51,44 @@
 
       .controls {
         margin-top: 16px;
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
         gap: 10px;
-        align-items: center;
+        align-items: end;
       }
 
-      button, select {
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .field label {
+        font-size: 0.82rem;
+        color: #d2f1ed;
+      }
+
+      button, select, input[type="text"] {
         border: 1px solid #74b1a5;
         border-radius: 10px;
-        padding: 8px 12px;
+        padding: 8px 10px;
         background: #ecf9f4;
         color: #0c3a3f;
         font-weight: 600;
+      }
+
+      input[type="range"] {
+        width: 100%;
+      }
+
+      .inline {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .inline input[type="checkbox"] {
+        transform: scale(1.1);
       }
 
       button {
@@ -171,24 +196,51 @@
   <body>
     <main class="wrap">
       <section class="hero">
-        <h1>Conversational AI / Voice Bot News Hub</h1>
-        <p class="sub">Aggregates high-signal stories across outlets, official blogs, and community sources so you can digest and forward updates fast.</p>
+        <h1>News Intelligence Hub</h1>
+        <p class="sub">Track any topic, tune quality thresholds, and prioritize high-value news over noise.</p>
 
         <div class="controls">
-          <button id="refreshBtn">Refresh Feed</button>
-          <label for="hours">Window:</label>
-          <select id="hours">
-            <option value="24">Last 24h</option>
-            <option value="48">Last 48h</option>
-            <option value="72" selected>Last 72h</option>
-            <option value="168">Last 7 days</option>
-          </select>
-          <label for="max">Max items:</label>
-          <select id="max">
-            <option value="80">80</option>
-            <option value="120" selected>120</option>
-            <option value="200">200</option>
-          </select>
+          <div class="field" style="grid-column: 1 / -1;">
+            <label for="topicsInput">Topics (comma-separated)</label>
+            <input id="topicsInput" type="text" placeholder="e.g. conversational AI, voice bots, healthcare automation" />
+          </div>
+
+          <div class="field">
+            <label for="hours">Window</label>
+            <select id="hours">
+              <option value="24">Last 24h</option>
+              <option value="48">Last 48h</option>
+              <option value="72" selected>Last 72h</option>
+              <option value="168">Last 7 days</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="max">Max items</label>
+            <select id="max">
+              <option value="80">80</option>
+              <option value="120" selected>120</option>
+              <option value="200">200</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="minScore">Min quality score: <span id="minScoreValue">30</span></label>
+            <input id="minScore" type="range" min="0" max="100" value="30" step="1" />
+          </div>
+
+          <div class="field">
+            <label>Relevance mode</label>
+            <label class="inline">
+              <input id="strictMode" type="checkbox" />
+              <span>Strict topic matching</span>
+            </label>
+          </div>
+
+          <div class="field">
+            <label>&nbsp;</label>
+            <button id="refreshBtn">Refresh Feed</button>
+          </div>
         </div>
 
         <div class="meta">
@@ -205,15 +257,62 @@
     </main>
 
     <script>
+      const DEFAULT_TOPICS = [
+        "conversational ai",
+        "chatbots",
+        "voice bots",
+        "digital automation",
+        "agentic ai"
+      ];
+
       const refreshBtn = document.getElementById("refreshBtn");
+      const topicsInput = document.getElementById("topicsInput");
       const hoursEl = document.getElementById("hours");
       const maxEl = document.getElementById("max");
+      const minScoreEl = document.getElementById("minScore");
+      const minScoreValueEl = document.getElementById("minScoreValue");
+      const strictModeEl = document.getElementById("strictMode");
+
       const statusEl = document.getElementById("status");
       const countEl = document.getElementById("count");
       const modeEl = document.getElementById("mode");
       const resultsEl = document.getElementById("results");
       const errorsEl = document.getElementById("errors");
       const keywordsEl = document.getElementById("keywords");
+
+      function readState() {
+        const saved = JSON.parse(localStorage.getItem("newsHubState") || "{}");
+        return {
+          topics: Array.isArray(saved.topics) && saved.topics.length ? saved.topics : DEFAULT_TOPICS,
+          hours: saved.hours || "72",
+          max: saved.max || "120",
+          minScore: Number.isFinite(saved.minScore) ? saved.minScore : 30,
+          strict: saved.strict !== false
+        };
+      }
+
+      function writeState() {
+        localStorage.setItem(
+          "newsHubState",
+          JSON.stringify({
+            topics: parseTopics(topicsInput.value),
+            hours: hoursEl.value,
+            max: maxEl.value,
+            minScore: Number(minScoreEl.value),
+            strict: strictModeEl.checked
+          })
+        );
+      }
+
+      function parseTopics(raw) {
+        const unique = new Set();
+        String(raw || "")
+          .split(/[\n,]+/)
+          .map((x) => x.trim())
+          .filter(Boolean)
+          .forEach((topic) => unique.add(topic.toLowerCase()));
+        return [...unique].slice(0, 12);
+      }
 
       function fmtDate(raw) {
         if (!raw) return "Unknown publish time";
@@ -253,7 +352,7 @@
         if (!items || items.length === 0) {
           const card = document.createElement("article");
           card.className = "card";
-          card.textContent = "No matching items in this window yet. Try increasing the window to 7 days or refresh later.";
+          card.textContent = "No high-value items matched these settings. Lower min quality or disable strict mode to broaden results.";
           resultsEl.appendChild(card);
           return;
         }
@@ -264,8 +363,8 @@
 
           card.innerHTML = `
             <div class="top">
-              <span class="source">${item.source} (${item.source_type})</span>
-              <span class="score">Priority ${item.score}</span>
+              <span class="source">${item.source} (${item.source_type}) ${item.domain ? "- " + item.domain : ""}</span>
+              <span class="score">Quality ${item.score}</span>
             </div>
             <h2 class="title"><a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a></h2>
             <p class="summary">${item.summary || "No summary available."}</p>
@@ -276,14 +375,27 @@
         });
       }
 
-      function filterStaticPayload(snapshot, hours, max) {
+      function localTopicHits(item, topics) {
+        const title = String(item.title || "").toLowerCase();
+        const summary = String(item.summary || "").toLowerCase();
+        return topics.reduce((acc, t) => acc + (title.includes(t) ? 2 : 0) + (summary.includes(t) ? 1 : 0), 0);
+      }
+
+      function filterStaticPayload(snapshot, hours, max, topics, minScore, strict) {
         const now = Date.now();
         const cutoffMs = hours * 60 * 60 * 1000;
+
         const items = (snapshot.items || [])
+          .map((item) => {
+            const hits = localTopicHits(item, topics);
+            const adjusted = (Number(item.score) || 0) + (hits * 6);
+            return { ...item, score: adjusted };
+          })
           .filter((item) => {
             const ts = parseTs(item.published);
-            if (ts === null) return true;
-            return (now - ts) <= cutoffMs;
+            if (ts !== null && (now - ts) > cutoffMs) return false;
+            if (strict && localTopicHits(item, topics) === 0) return false;
+            return item.score >= minScore;
           })
           .sort((a, b) => {
             const scoreDiff = (b.score || 0) - (a.score || 0);
@@ -294,47 +406,62 @@
 
         return {
           generated_at: snapshot.generated_at,
-          tracked_keywords: snapshot.tracked_keywords || [],
+          tracked_keywords: topics,
+          topics_used: topics,
+          min_score_applied: minScore,
+          strict_mode: strict,
           errors: snapshot.errors || [],
           count: items.length,
           items,
         };
       }
 
-      async function fetchLive(hours, max) {
-        const resp = await fetch(`/api/news?hours=${encodeURIComponent(hours)}&max=${encodeURIComponent(max)}`, {
-          cache: "no-store"
+      async function fetchLive(hours, max, topics, minScore, strict) {
+        const qs = new URLSearchParams({
+          hours: String(hours),
+          max: String(max),
+          topics: topics.join(","),
+          min_score: String(minScore),
+          strict: strict ? "1" : "0"
         });
+
+        const resp = await fetch(`/api/news?${qs.toString()}`, { cache: "no-store" });
         if (!resp.ok) throw new Error(`Live API HTTP ${resp.status}`);
         return resp.json();
       }
 
-      async function fetchStatic(hours, max) {
+      async function fetchStatic(hours, max, topics, minScore, strict) {
         const resp = await fetch("./news.json", { cache: "no-store" });
         if (!resp.ok) throw new Error(`Static JSON HTTP ${resp.status}`);
         const snapshot = await resp.json();
-        return filterStaticPayload(snapshot, Number(hours), Number(max));
+        return filterStaticPayload(snapshot, Number(hours), Number(max), topics, Number(minScore), strict);
       }
 
       async function refresh() {
-        const hours = hoursEl.value;
-        const max = maxEl.value;
+        writeState();
+
+        const hours = Number(hoursEl.value);
+        const max = Number(maxEl.value);
+        const topics = parseTopics(topicsInput.value);
+        const minScore = Number(minScoreEl.value);
+        const strict = strictModeEl.checked;
+
         statusEl.textContent = "Refreshing...";
 
         try {
           let payload;
           try {
-            payload = await fetchLive(hours, max);
+            payload = await fetchLive(hours, max, topics, minScore, strict);
             modeEl.textContent = "Mode: live API (Netlify/server)";
           } catch {
-            payload = await fetchStatic(hours, max);
+            payload = await fetchStatic(hours, max, topics, minScore, strict);
             modeEl.textContent = "Mode: static snapshot fallback";
           }
 
-          renderKeywords(payload.tracked_keywords);
+          renderKeywords(payload.topics_used || payload.tracked_keywords || topics);
           renderErrors(payload.errors);
           renderItems(payload.items);
-          countEl.textContent = `${payload.count} items`;
+          countEl.textContent = `${payload.count} items (min quality ${payload.min_score_applied ?? minScore})`;
           statusEl.textContent = payload.generated_at
             ? `Updated ${new Date(payload.generated_at).toLocaleString()}`
             : "Updated";
@@ -344,7 +471,28 @@
         }
       }
 
+      function initializeControls() {
+        const state = readState();
+        topicsInput.value = state.topics.join(", ");
+        hoursEl.value = state.hours;
+        maxEl.value = state.max;
+        minScoreEl.value = String(state.minScore);
+        minScoreValueEl.textContent = String(state.minScore);
+        strictModeEl.checked = state.strict;
+      }
+
+      minScoreEl.addEventListener("input", () => {
+        minScoreValueEl.textContent = minScoreEl.value;
+        writeState();
+      });
+
+      [topicsInput, hoursEl, maxEl, strictModeEl].forEach((el) => {
+        el.addEventListener("change", writeState);
+      });
+
       refreshBtn.addEventListener("click", refresh);
+
+      initializeControls();
       refresh();
       setInterval(refresh, 1000 * 60 * 10);
     </script>

@@ -23,6 +23,9 @@ def main() -> None:
     )
     parser.add_argument("--hours", type=int, default=24 * 14, help="Lookback window in hours.")
     parser.add_argument("--max", dest="max_items", type=int, default=400, help="Max stories.")
+    parser.add_argument("--topics", type=str, default="", help="Comma-separated topics override.")
+    parser.add_argument("--min-score", type=int, default=None, help="Minimum quality score.")
+    parser.add_argument("--strict", action="store_true", help="Use strict relevance mode.")
     parser.add_argument(
         "--output",
         action="append",
@@ -30,7 +33,15 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    payload = collect_news(hours=args.hours, max_items=args.max_items)
+    topic_list = [x.strip() for x in args.topics.split(",") if x.strip()]
+
+    payload = collect_news(
+        hours=args.hours,
+        max_items=args.max_items,
+        topics=topic_list or None,
+        min_score=args.min_score,
+        strict=args.strict,
+    )
 
     outputs = resolve_outputs(args.output)
     for output in outputs:

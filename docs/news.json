@@ -1,27 +1,56 @@
 {
-  "generated_at": "2026-03-08T22:24:11.201067+00:00",
+  "generated_at": "2026-03-09T05:26:32.920252+00:00",
+  "topics_used": [
+    "conversational ai",
+    "chatbots",
+    "voice bots",
+    "digital automation",
+    "contact center ai"
+  ],
   "tracked_keywords": [
     "conversational ai",
-    "chatbot",
     "chatbots",
-    "voice bot",
-    "voicebot",
-    "voice ai",
+    "voice bots",
     "digital automation",
-    "customer service ai",
-    "contact center ai",
-    "agentic ai",
-    "nvidia personaplex",
-    "personaplex",
-    "elevenlabs",
-    "murf",
-    "cognigy",
-    "nice",
-    "voiceflow",
-    "optus"
+    "contact center ai"
   ],
-  "count": 103,
+  "min_score_applied": 30,
+  "strict_mode": false,
+  "count": 10,
   "items": [
+    {
+      "title": "After Europe, WhatsApp will let rival AI companies offer chatbots in Brazil",
+      "summary": "Meta is now allowing rival AI companies to provide their chatbots on WhatsApp to Brazilian users for a fee, a day after the company confirmed a similar decision for users in Europe.",
+      "url": "https://techcrunch.com/2026/03/06/after-europe-whatsapp-will-let-rival-ai-companies-offer-chatbots-in-brazil/",
+      "published": "Fri, 06 Mar 2026 13:20:43 +0000",
+      "source": "TechCrunch AI",
+      "source_type": "outlet",
+      "score": 61,
+      "domain": "techcrunch.com",
+      "topic_hits": 2
+    },
+    {
+      "title": "Build a serverless conversational AI agent using Claude with LangGraph and managed MLflow on Amazon SageMaker AI",
+      "summary": "This post explores how to build an intelligent conversational agent using Amazon Bedrock, LangGraph, and managed MLflow on Amazon SageMaker AI.",
+      "url": "https://aws.amazon.com/blogs/machine-learning/build-a-serverless-conversational-ai-agent-using-claude-with-langgraph-and-managed-mlflow-on-amazon-sagemaker-ai/",
+      "published": "Mon, 02 Mar 2026 18:51:43 +0000",
+      "source": "AWS Machine Learning Blog",
+      "source_type": "official",
+      "score": 54,
+      "domain": "aws.amazon.com",
+      "topic_hits": 1
+    },
+    {
+      "title": "Ring’s Jamie Siminoff has been trying to calm privacy fears since the Super Bowl, but his answers may not help",
+      "summary": "The facial recognition question is where things get more tangled.",
+      "url": "https://techcrunch.com/2026/03/08/rings-jamie-siminoff-has-been-trying-to-calm-privacy-fears-since-the-super-bowl-but-his-answers-may-not-help/",
+      "published": "Mon, 09 Mar 2026 04:35:06 +0000",
+      "source": "TechCrunch AI",
+      "source_type": "outlet",
+      "score": 42,
+      "domain": "techcrunch.com",
+      "topic_hits": 0
+    },
     {
       "title": "Will the Pentagon’s Anthropic controversy scare startups away from defense work?",
       "summary": "On the latest episode of TechCrunch’s Equity podcast, we discussed what the controversy means for other startups seeking to work with the federal government.",
@@ -29,7 +58,9 @@
       "published": "Sun, 08 Mar 2026 20:14:42 +0000",
       "source": "TechCrunch AI",
       "source_type": "outlet",
-      "score": 43
+      "score": 34,
+      "domain": "techcrunch.com",
+      "topic_hits": 0
     },
     {
       "title": "Owner of ICE detention facility sees big opportunity in AI man camps",
@@ -38,340 +69,9 @@
       "published": "Sun, 08 Mar 2026 16:30:00 +0000",
       "source": "TechCrunch AI",
       "source_type": "outlet",
-      "score": 43
-    },
-    {
-      "title": "Show HN: I built a pipeline that generates a comedy podcast end-to-end with AI",
-      "summary": "The pipeline takes a trending topic and produces a fully rendered ~22 min comedy podcast episode with three AI characters (PRODUCER, CRITIC, DUMBASS). Everything is automated: premise ideation, research, outline generation, script writing with a writers' room (punch-up passes, verification gates), voice synthesis via ElevenLabs, music bed mixing, and publishing to Spotify. Stack: Temporal for durable workflow orchestration, Gemini for script generation, gollem ( https://github.com/fugue-labs/gollem ) agents with structured outputs and automatic validation, Postgres + Apache AGE for graph queries, Qdrant for vector search, ElevenLabs for multi-voice dialogue synthesis. Each episode goes through ~10 beats, each independently written and verified for grounding. There's a verifier gate that checks factual claims, forbidden phrases, and character voice consistency before anything gets rendered. The whole thing runs with a single slash command and takes about 2 hours end-to-end. 24 episodes in so far. This one's about a character who uses AI to write a book in a weekend and declares himself a literary genius. Comments URL: https://news.ycombinator.com/item?id=47301386 Points: 1 # Comments: 0",
-      "url": "https://open.spotify.com/episode/2tIqXUuQFuIyIOuBkie6Sh",
-      "published": "Sun, 08 Mar 2026 20:59:38 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 40
-    },
-    {
-      "title": "Show HN: Open-source AI SaaS to turn long videos into viral shorts",
-      "summary": "Hey HN, I built OpenShorts, an open-source tool that takes a long YouTube video (or local file) and automatically generates vertical short clips ready for TikTok, Instagram Reels, and YouTube Shorts. How it works: 1. Transcribes the video using faster-whisper (CPU-optimized, word-level timestamps) 2. Sends the transcript to Gemini 2.0 Flash, which identifies the 3–15 most \"viral-worthy\" moments (15–60s each) 3. FFmpeg extracts the clips precisely 4. AI-powered vertical reframing with two modes: - TRACK mode: MediaPipe face detection + YOLOv8 fallback with stabilization (\"Heavy Tripod\" engine) for single-subject scenes - GENERAL mode: Blurred background layout for groups/landscapes 5. Optional: AI subtitles, hook text overlays, voice dubbing (ElevenLabs, 30+ languages), and direct social posting The reframing engine was the hardest part. Naive face tracking produces jittery, unwatchable output. I built a SmoothedCameraman class with safe-zone logic and a SpeakerTracker that prevents rapid switching between detected faces. The system pre-scans every scene to decide TRACK vs. GENERAL before processing. Stack: Python/FastAPI backend, React/Vite dashboard, Docker Compose for one-command setup. All API keys (Gemini, ElevenLabs) stay client-side, encrypted in localStorage — never stored on the server. Try it: git clone ... && docker compose up --build Then open localhost:5173, paste a Gemini API key and a YouTube URL. MIT licensed. Feedback and PRs welcome. Comments URL: https://news.ycombinator.com/item?id=47300951 Points: 1 # Comments: 0",
-      "url": "https://github.com/mutonby/openshorts",
-      "published": "Sun, 08 Mar 2026 20:16:43 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 40
-    },
-    {
-      "title": "Show HN: I built a site where strangers leave kind voice notes for each other",
-      "summary": "Article URL: https://kindvoicenotes.com Comments URL: https://news.ycombinator.com/item?id=47302146 Points: 1 # Comments: 1",
-      "url": "https://kindvoicenotes.com",
-      "published": "Sun, 08 Mar 2026 22:12:44 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "Luma AI’s new Uni-1 beats Nano-banana 2 in some benchmarks",
-      "summary": "Article URL: https://lumalabs.ai/uni-1 Comments URL: https://news.ycombinator.com/item?id=47302114 Points: 2 # Comments: 0",
-      "url": "https://lumalabs.ai/uni-1",
-      "published": "Sun, 08 Mar 2026 22:09:44 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "Drone strikes raise doubts over Gulf as AI superpower",
-      "summary": "Article URL: https://www.theguardian.com/world/2026/mar/07/it-means-missile-defence-on-data-centres-drone-strikes-raises-doubts-over-gulf-as-ai-superpower Comments URL: https://news.ycombinator.com/item?id=47301845 Points: 3 # Comments: 0",
-      "url": "https://www.theguardian.com/world/2026/mar/07/it-means-missile-defence-on-data-centres-drone-strikes-raises-doubts-over-gulf-as-ai-superpower",
-      "published": "Sun, 08 Mar 2026 21:44:05 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "The five AI value models driving business reinvention",
-      "summary": "Article URL: https://openai.com/index/the-five-ai-value-models-driving-business-reinvention/ Comments URL: https://news.ycombinator.com/item?id=47301801 Points: 2 # Comments: 0",
-      "url": "https://openai.com/index/the-five-ai-value-models-driving-business-reinvention/",
-      "published": "Sun, 08 Mar 2026 21:40:10 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "FastFlowLM Docker – Run LLMs on AMD Ryzen AI NPU (Linux)",
-      "summary": "Article URL: https://github.com/hpenedones/fastflowlm-docker Comments URL: https://news.ycombinator.com/item?id=47301726 Points: 2 # Comments: 0",
-      "url": "https://github.com/hpenedones/fastflowlm-docker",
-      "published": "Sun, 08 Mar 2026 21:32:32 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "Show HN: Agentlytics – See stats from all your AI coding agents (100% local)",
-      "summary": "hi HN i switch between cursor, windsurf, claude code, copilot and had zero idea how many sessions i've had (sometimes i use multiple editors for just one codebase), how much i'm spending, or which tool actually works best. so i built agentlytics. one command, everything in one place: npx agentlytics features: 14 editors supported, cost estimates by model/editor/project, search any AI conversation across all editors, activity heatmaps, streaks, peak hours, share stats with your team via MCP relay, 100% local, nothing leaves your machine. tech: node.js, sqlite, react. no accounts, no cloud. OSS, MIT licensed. tested on macos — linux/windows contributions welcome. would love to hear what you'd want to see in this Comments URL: https://news.ycombinator.com/item?id=47301585 Points: 1 # Comments: 0",
-      "url": "https://agentlytics.io",
-      "published": "Sun, 08 Mar 2026 21:17:42 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "Ask HN: How are you monitoring AI agents in production?",
-      "summary": "With the recent incidents (DataTalks database wipe by Claude Code, Replit agent deleting data during code freeze), it's clear that running AI agents in production without observability is risky. Common failure modes I've seen: no visibility into what the agent did step-by-step, surprise LLM bills from untracked token usage, risky outputs going undetected, and no audit trail for post-mortems. I've been building AgentShield (https://useagentshield.com) — an observability SDK for AI agents. It does execution tracing, risk detection on outputs, cost tracking per agent/model, and human-in-the-loop approval for high-risk actions. Plugs into LangChain, CrewAI, and OpenAI Agents SDK with a 2-line integration. Curious what others are using. Rolling your own monitoring? LangSmith? Langfuse? Or just hoping for the best? Comments URL: https://news.ycombinator.com/item?id=47301395 Points: 2 # Comments: 2",
-      "url": "https://news.ycombinator.com/item?id=47301395",
-      "published": "Sun, 08 Mar 2026 21:00:42 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "Show HN: Exolio AI – Free AI text detector for anyone (30-day free trial)",
-      "summary": "I built Exolio AI to help teachers detect AI-generated student work. It uses a custom RoBERTa model trained on human and AI text. One free check with no account needed. Happy to answer any questions about how it works. Comments URL: https://news.ycombinator.com/item?id=47301283 Points: 1 # Comments: 0",
-      "url": "https://app.exolio.com",
-      "published": "Sun, 08 Mar 2026 20:47:21 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "The case for running AI agents on Markdown files instead of MCP servers",
-      "summary": "Article URL: https://thenewstack.io/skills-vs-mcp-agent-architecture/ Comments URL: https://news.ycombinator.com/item?id=47301253 Points: 2 # Comments: 0",
-      "url": "https://thenewstack.io/skills-vs-mcp-agent-architecture/",
-      "published": "Sun, 08 Mar 2026 20:44:31 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "The Problem with AI Agents Isn't Identity, It's Authorization",
-      "summary": "Article URL: https://fusionauth.io/blog/ai-authorization Comments URL: https://news.ycombinator.com/item?id=47301161 Points: 1 # Comments: 0",
-      "url": "https://fusionauth.io/blog/ai-authorization",
-      "published": "Sun, 08 Mar 2026 20:37:02 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "How Gen AI Is Changing the Way We Write Code",
-      "summary": "Article URL: https://spaquet.medium.com/how-llms-are-changing-the-way-we-write-code-0d3f43c61d64 Comments URL: https://news.ycombinator.com/item?id=47300990 Points: 2 # Comments: 1",
-      "url": "https://spaquet.medium.com/how-llms-are-changing-the-way-we-write-code-0d3f43c61d64",
-      "published": "Sun, 08 Mar 2026 20:20:12 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "Show HN: I built a tool to search 50K+ AI coding conversations in SQLite",
-      "summary": "I'm moving to a new computer and realized that the history.jsonl claude and codex files contain some very useful and valuable previous prompt sessions. Also the agent-relay conversations contain some gold. Details: - Imports history from Claude Code, Codex CLI, and Agent Relay into one SQLite DB - Incremental sync — only reads new bytes on re-run - FTS5 full-text search across all your prompts - Drill-down workflow: search → show full prompt → see session context → resume conversation - Runs as a launchd/cron job for continuous sync Comments URL: https://news.ycombinator.com/item?id=47300968 Points: 1 # Comments: 0",
-      "url": "https://github.com/khaliqgant/ai-hist",
-      "published": "Sun, 08 Mar 2026 20:18:16 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "Rubenerd: We've lost Vim, and gen-\"AI\" as a drug",
-      "summary": "Article URL: https://rubenerd.com/weve-lost-vim-and-gen-ai-as-a-drug/ Comments URL: https://news.ycombinator.com/item?id=47300840 Points: 2 # Comments: 0",
-      "url": "https://rubenerd.com/weve-lost-vim-and-gen-ai-as-a-drug/",
-      "published": "Sun, 08 Mar 2026 20:06:01 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "Show HN: I built a local AI crypto monitoring agent that texts me on Telegram",
-      "summary": "Article URL: https://openclawtrades.com Comments URL: https://news.ycombinator.com/item?id=47300802 Points: 2 # Comments: 0",
-      "url": "https://openclawtrades.com",
-      "published": "Sun, 08 Mar 2026 20:02:38 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "Why the Internet Built for Friends Felt More Meaningful Than AI",
-      "summary": "At the beginning of the social internet there was a very simple promise. Technology would help people stay connected to those who were already part of their lives. There was no obsession with “audiences”, no creator economy, no algorithms deciding what you should watch next. The center of everything was human relationships. That is why platforms like Facebook, Orkut and even early YouTube felt meaningful to millions of people. They worked as extensions of real social life. Today the situation is curious. We live in the most technologically advanced digital era in history. Artificial intelligence writes articles, generates images and can hold long conversations with us. Yet many people feel that these tools do not occupy the same emotional space in their lives that those early social platforms once did. To understand why, it helps to look carefully at how the social web evolved and what quietly changed along the way. When Facebook launched in 2004 its purpose was extremely narrow. It was built to connect college students who already knew each other. Access required a university email address. There were no influencers, no viral video feeds, and no global audiences. People logged in to see photos from the weekend party, comment on a friend’s post, or check where classmates were studying abroad. The structure of the platform reflected this intention. The core of the experience was simply your list of friends. That detail, which might seem trivial today, changed everything. Research from the Pew Research Center showed that the vast majority of Facebook connections were people users already knew in real life. On average only about 7 percent of connections were with people the user had never met offline. Most contacts came from school, family, work or existing social circles. https://www.pewresearch.org/internet/2011/06/16/social-networking-sites-and-our-lives-2/ Read the full content here: Comments URL: https://news.ycombinator.com/item?id=47300512 Points: 4 # Comments: 0",
-      "url": "https://news.ycombinator.com/item?id=47300512",
-      "published": "Sun, 08 Mar 2026 19:42:05 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "MemryX MX3M.2 AI Accelerator Module [pdf]",
-      "summary": "Article URL: https://memryx.com/wp-content/uploads/2025/04/MX3-M.2-AI-Accelerator-Module-Product-brief-DEC25-Gold.pdf Comments URL: https://news.ycombinator.com/item?id=47300429 Points: 2 # Comments: 0",
-      "url": "https://memryx.com/wp-content/uploads/2025/04/MX3-M.2-AI-Accelerator-Module-Product-brief-DEC25-Gold.pdf",
-      "published": "Sun, 08 Mar 2026 19:34:46 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "AI Disruption: Doomsday Scenario or Fizzle? [video]",
-      "summary": "Article URL: https://www.youtube.com/watch?v=TbOAtQU89eA Comments URL: https://news.ycombinator.com/item?id=47300338 Points: 1 # Comments: 0",
-      "url": "https://www.youtube.com/watch?v=TbOAtQU89eA",
-      "published": "Sun, 08 Mar 2026 19:27:29 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "The Shift from ML Engineering to AI Engineering",
-      "summary": "Article URL: https://bryananthonio.com/blog/shift-from-ml-to-ai-engineering/ Comments URL: https://news.ycombinator.com/item?id=47300200 Points: 3 # Comments: 2",
-      "url": "https://bryananthonio.com/blog/shift-from-ml-to-ai-engineering/",
-      "published": "Sun, 08 Mar 2026 19:16:42 +0000",
-      "source": "HN RSS - Voice AI",
-      "source_type": "community",
-      "score": 35
-    },
-    {
-      "title": "A roadmap for AI, if anyone will listen",
-      "summary": "The Pro-Human Declaration was finalized before last week's Pentagon-Anthropic standoff, but the collision of the two events wasn’t lost on anyone involved.",
-      "url": "https://techcrunch.com/2026/03/07/a-roadmap-for-ai-if-anyone-will-listen/",
-      "published": "Sun, 08 Mar 2026 06:05:26 +0000",
-      "source": "TechCrunch AI",
-      "source_type": "outlet",
-      "score": 33
-    },
-    {
-      "title": "Google just gave Sundar Pichai a $692M pay package",
-      "summary": "Most of it is tied to performance, including new stock incentives linked to Waymo and Wing, its drone delivery venture.",
-      "url": "https://techcrunch.com/2026/03/07/google-just-gave-sundar-pichai-a-692m-pay-package/",
-      "published": "Sun, 08 Mar 2026 00:20:10 +0000",
-      "source": "TechCrunch AI",
-      "source_type": "outlet",
-      "score": 33
-    },
-    {
-      "title": "Grammarly’s ‘expert review’ is just missing the actual experts",
-      "summary": "A recently-added feature in Grammarly purports to improve users’ writing with help from the world's great writers and thinkers — and some tech journalists, too.",
-      "url": "https://techcrunch.com/2026/03/07/grammarlys-expert-review-is-just-missing-the-actual-experts/",
-      "published": "Sat, 07 Mar 2026 22:56:31 +0000",
-      "source": "TechCrunch AI",
-      "source_type": "outlet",
-      "score": 33
-    },
-    {
-      "title": "After Europe, WhatsApp will let rival AI companies offer chatbots in Brazil",
-      "summary": "Meta is now allowing rival AI companies to provide their chatbots on WhatsApp to Brazilian users for a fee, a day after the company confirmed a similar decision for users in Europe.",
-      "url": "https://techcrunch.com/2026/03/06/after-europe-whatsapp-will-let-rival-ai-companies-offer-chatbots-in-brazil/",
-      "published": "Fri, 06 Mar 2026 13:20:43 +0000",
-      "source": "TechCrunch AI",
-      "source_type": "outlet",
-      "score": 33
-    },
-    {
-      "title": "How Descript enables multilingual video dubbing at scale",
-      "summary": "Descript uses OpenAI models to scale multilingual video dubbing, optimizing translations for both meaning and timing so dubbed speech sounds natural across languages.",
-      "url": "https://openai.com/index/descript",
-      "published": "Fri, 06 Mar 2026 10:00:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 30
-    },
-    {
-      "title": "Codex Security: now in research preview",
-      "summary": "Codex Security is an AI application security agent that analyzes project context to detect, validate, and patch complex vulnerabilities with higher confidence and less noise.",
-      "url": "https://openai.com/index/codex-security-now-in-research-preview",
-      "published": "Fri, 06 Mar 2026 10:00:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 30
-    },
-    {
-      "title": "How Balyasny Asset Management built an AI research engine for investing",
-      "summary": "See how Balyasny built an AI research system with GPT-5.4, rigorous model evaluation, and agent workflows to transform investment analysis at scale.",
-      "url": "https://openai.com/index/balyasny-asset-management",
-      "published": "Fri, 06 Mar 2026 07:00:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 30
-    },
-    {
-      "title": "Rezolve.ai Unveils Creator Studio — AI That Builds Enterprise Automations in Minutes - EIN News",
-      "summary": "Rezolve.ai Unveils Creator Studio — AI That Builds Enterprise Automations in Minutes &nbsp;&nbsp; EIN News",
-      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPUW1tTE1aNjA2eTdxLTdFWlVTMDQ5d1dGRU1vZ2dCbXVqTzRLalpFbzVuQ2x4ZG9adVQ0bUVBS3R3bTFwMm9ibUJlM09QaWJZX1VYc0s2V1FKM3JMblRvZU5tdkJUUXFEMGdCVXQtMXBXRmUtVEZxLVczZ3pvZ3Z5NXV6RXJyakE4bWJfUHMzdjZTTTNReDZ6cHFYVXQ1UEZoVk0xSGRlY1drbGZzbTVVTUlaZEd1Y1hldldJajY3NjByaWJhMzZDY9IByAFBVV95cUxPUW1tTE1aNjA2eTdxLTdFWlVTMDQ5d1dGRU1vZ2dCbXVqTzRLalpFbzVuQ2x4ZG9adVQ0bUVBS3R3bTFwMm9ibUJlM09QaWJZX1VYc0s2V1FKM3JMblRvZU5tdkJUUXFEMGdCVXQtMXBXRmUtVEZxLVczZ3pvZ3Z5NXV6RXJyakE4bWJfUHMzdjZTTTNReDZ6cHFYVXQ1UEZoVk0xSGRlY1drbGZzbTVVTUlaZEd1Y1hldldJajY3NjByaWJhMzZDYw?oc=5",
-      "published": "Fri, 06 Mar 2026 20:08:29 GMT",
-      "source": "Google News - Cognigy",
-      "source_type": "company",
-      "score": 25
-    },
-    {
-      "title": "Should You Buy, Sell or Hold SoundHound Stock Post Q4 Earnings? - TradingView",
-      "summary": "Should You Buy, Sell or Hold SoundHound Stock Post Q4 Earnings? &nbsp;&nbsp; TradingView",
-      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQMmFEUkNCbE9FUlF1cnc4YzZ2dllTSnZ1QllFU3BmQlY4SnFJSHZpX0ZLQnRqdWlNUldzNEZvcHduNUt0UGlac2FjbW85Sl9qTkdlUFlwam84QXB3X3BUTFM5akU3Q2ROSS0wbk5zU1E1WFB2Ry1qODdndXoxQmQ3cUgxa05IR1pwSmotekowVldtSzZ0X2JGcjd0bjZUYU1rcUFJa3JtdTRWekRqaF9yRmJzM2FhbnVa?oc=5",
-      "published": "Fri, 06 Mar 2026 15:15:00 GMT",
-      "source": "Google News - Cognigy",
-      "source_type": "company",
-      "score": 25
-    },
-    {
-      "title": "TI accelerates the next generation of physical AI with NVIDIA - IT Voice Media",
-      "summary": "TI accelerates the next generation of physical AI with NVIDIA &nbsp;&nbsp; IT Voice Media",
-      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNUk9VUC1HUWw2cGhVZHFaN0t2RzdkX2J3UFJlLTdxazRjbGMwQU91aVlJYTZraXNzOFlrTnBHLUs2VlkxTFVLQi14V0otT29lN0xJVDRQYm5CcXdwQlpJc3EyaWthTTVOZVFCOUo1bDNfQkdGTy1NbzV4VWhEZ2tkWlVDVVhIanQ0SXVkRg?oc=5",
-      "published": "Fri, 06 Mar 2026 08:20:23 GMT",
-      "source": "Google News - NVIDIA PersonaPlex",
-      "source_type": "company",
-      "score": 25
-    },
-    {
-      "title": "Best Text-To-Speech AI Voice Generators - eWeek",
-      "summary": "Best Text-To-Speech AI Voice Generators &nbsp;&nbsp; eWeek",
-      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5yaDgyeXFOMlMwTWdLcnc3enFlQTdlQ2NMMlRQLVZYRzBlRElrTFEzYXZwT0laUTZIZVVDV21CVUwwSzVwU3RrZXdSYXB3X3ZINldCSW5sNldIeG5jVTVkTVd0T2VINURCVGJmajRFY0htTjdkSFIyMllB?oc=5",
-      "published": "Fri, 06 Mar 2026 08:00:00 GMT",
-      "source": "Google News - Murf",
-      "source_type": "company",
-      "score": 25
-    },
-    {
-      "title": "OpenAI hardware exec Caitlin Kalinowski quits in response to Pentagon deal",
-      "summary": "Hardware executive Caitlin Kalinowski announced today that in response to OpenAI's controversial agreement with the Department of Defense, she’s resigned from her role leading the company's robotics team.",
-      "url": "https://techcrunch.com/2026/03/07/openai-robotics-lead-caitlin-kalinowski-quits-in-response-to-pentagon-deal/",
-      "published": "Sat, 07 Mar 2026 20:44:25 +0000",
-      "source": "TechCrunch AI",
-      "source_type": "outlet",
-      "score": 23
-    },
-    {
-      "title": "OpenAI delays ChatGPT’s ‘adult mode’ again",
-      "summary": "The feature, which will give verified adult users access to erotica and other adult content, had already been delayed from December.",
-      "url": "https://techcrunch.com/2026/03/07/openai-delays-chatgpts-adult-mode-again/",
-      "published": "Sat, 07 Mar 2026 17:28:41 +0000",
-      "source": "TechCrunch AI",
-      "source_type": "outlet",
-      "score": 23
-    },
-    {
-      "title": "The OpenClaw superfan meetup serves optimism and lobster",
-      "summary": "The woman at the door wore a plush lobster headdress. She sat in the front hallway of a multistory event venue in Manhattan, beside a bundle of wristbands. If she granted you one, the world of ClawCon beckoned behind her - full of vibey pink and purple lighting, lobster claw headbands, multicolored name tags, sponsor [&#8230;]",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/890517/openclaw-clawcon-meetup-nyc-open-source-ai",
-      "published": "2026-03-07T09:00:00-05:00",
-      "source": "The Verge AI",
-      "source_type": "outlet",
-      "score": 23
-    },
-    {
-      "title": "Grammarly is using our identities without permission",
-      "summary": "Grammarly's \"expert review\" feature offers to give users writing advice \"inspired by\" subject matter experts, including recently deceased professors, as Wired reported on Wednesday. When I tried the feature out myself, I found some experts that came as a surprise for a different reason - one of them was my boss. The AI-generated feedback included [&#8230;]",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/890921/grammarly-ai-expert-reviews",
-      "published": "2026-03-06T15:58:24-05:00",
-      "source": "The Verge AI",
-      "source_type": "outlet",
-      "score": 23
-    },
-    {
-      "title": "Microsoft, Google, Amazon say Anthropic Claude remains available to non-defense customers",
-      "summary": "Trump's Department of War feud with Anthropic won't impact other companies that are using Claude via Microsoft and Google products.",
-      "url": "https://techcrunch.com/2026/03/06/microsoft-anthropic-claude-remains-available-to-customers-except-the-defense-department/",
-      "published": "Fri, 06 Mar 2026 19:50:10 +0000",
-      "source": "TechCrunch AI",
-      "source_type": "outlet",
-      "score": 23
-    },
-    {
-      "title": "The AI Doc is an overwrought hype piece for doomers and accelerationists alike",
-      "summary": "We are in the thick of a massive push to incorporate generative AI into almost every aspect of our lives, but it is still easy to be confused about what it is and how it works. It doesn't help that many of gen AI's proponents and detractors both speak about it with a feverish hyperbole [&#8230;]",
-      "url": "https://www.theverge.com/entertainment/890806/the-ai-doc-or-how-i-became-an-apocaloptimist-review",
-      "published": "2026-03-06T14:05:00-05:00",
-      "source": "The Verge AI",
-      "source_type": "outlet",
-      "score": 23
+      "score": 34,
+      "domain": "techcrunch.com",
+      "topic_hits": 0
     },
     {
       "title": "Anthropic’s Claude found 22 vulnerabilities in Firefox over two weeks",
@@ -380,151 +80,9 @@
       "published": "Fri, 06 Mar 2026 19:00:22 +0000",
       "source": "TechCrunch AI",
       "source_type": "outlet",
-      "score": 23
-    },
-    {
-      "title": "Anthropic’s Pentagon deal is a cautionary tale for startups chasing federal contracts",
-      "summary": "The Pentagon has officially designated Anthropic a supply-chain risk after the two failed to agree on how much control the military should have over its AI models, including its use in autonomous weapons and mass domestic surveillance. As Anthropic’s $200 million contract fell apart, the DoD turned to OpenAI instead, which accepted and then watched ChatGPT uninstalls surge 295%. As the stakes keep rising, the question remains: how much unrestricted [&#8230;]",
-      "url": "https://techcrunch.com/video/anthropics-pentagon-deal-is-a-cautionary-tale-for-startups-chasing-federal-contracts/",
-      "published": "Fri, 06 Mar 2026 18:09:11 +0000",
-      "source": "TechCrunch AI",
-      "source_type": "outlet",
-      "score": 23
-    },
-    {
-      "title": "Anthropic vs. the Pentagon, the SaaSpocalypse, and why competitions is good, actually",
-      "summary": "The Pentagon has officially&#160;designated&#160;Anthropic&#160;a supply-chain risk&#160;after the two failed to agree on how much control the military should have over its AI models,&#160;including&#160;its&#160;use in&#160;autonomous weapons and mass domestic surveillance. As&#160;Anthropic’s&#160;$200 million contract fell apart, the DoD turned to OpenAI instead,&#160;which&#160;accepted and&#160;then watched&#160;ChatGPT uninstalls surge 295%. As the stakes keep rising, the question&#160;remains: how much unrestricted [&#8230;]",
-      "url": "https://techcrunch.com/podcast/anthropic-vs-the-pentagon-the-saaspocalypse-and-why-competitions-is-good-actually/",
-      "published": "Fri, 06 Mar 2026 18:01:38 +0000",
-      "source": "TechCrunch AI",
-      "source_type": "outlet",
-      "score": 23
-    },
-    {
-      "title": "Claude’s consumer growth surge continues after Pentagon deal debacle",
-      "summary": "Claude's app is now seeing more new installs than ChatGPT and is growing its daily active users.",
-      "url": "https://techcrunch.com/2026/03/06/claudes-consumer-growth-surge-continues-after-pentagon-deal-debacle/",
-      "published": "Fri, 06 Mar 2026 17:56:07 +0000",
-      "source": "TechCrunch AI",
-      "source_type": "outlet",
-      "score": 23
-    },
-    {
-      "title": "City Detect, which uses AI to help cities stay safe and clean, raises $13M Series A",
-      "summary": "City Detect, a company that helps local governments prevent urban decay, is in at least 17 cities so far, including Dallas and Miami.",
-      "url": "https://techcrunch.com/2026/03/06/city-detect-uses-ai-to-help-cities-stay-safe-and-clean/",
-      "published": "Fri, 06 Mar 2026 14:00:00 +0000",
-      "source": "TechCrunch AI",
-      "source_type": "outlet",
-      "score": 23
-    },
-    {
-      "title": "Anthropic to challenge DOD’s supply-chain label in court",
-      "summary": "Anthropic CEO Dario Amodei said he plans to challenge the Department of Defense's designation of the AI firm as a supply-chain risk. He claims most Anthropic customers are unaffected by the label.",
-      "url": "https://techcrunch.com/2026/03/05/anthropic-to-challenge-dods-supply-chain-label-in-court/",
-      "published": "Fri, 06 Mar 2026 01:28:54 +0000",
-      "source": "TechCrunch AI",
-      "source_type": "outlet",
-      "score": 23
-    },
-    {
-      "title": "DiligenceSquared uses AI, voice agents to make M&A research affordable",
-      "summary": "Instead of relying on expensive management consultants, the startup uses AI voice agents to conduct interviews with customers of the companies the PE firms are considering buying.",
-      "url": "https://techcrunch.com/2026/03/05/diligencesquared-uses-ai-voice-agents-to-make-ma-research-affordable/",
-      "published": "Thu, 05 Mar 2026 23:14:04 +0000",
-      "source": "TechCrunch AI",
-      "source_type": "outlet",
-      "score": 23
-    },
-    {
-      "title": "The Pentagon formally labels Anthropic a supply-chain risk",
-      "summary": "After weeks of failed negotiations, public ultimatums, and lawsuit threats, the Defense Department has formally labeled Anthropic a \"supply-chain risk,\" escalating its fight with the AI company over their acceptable use policies and potentially bringing their fight to court. The decision, first reported by The Wall Street Journal on Thursday, citing one source familiar, will [&#8230;]",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/890347/pentagon-anthropic-supply-chain-risk",
-      "published": "2026-03-05T18:02:22-05:00",
-      "source": "The Verge AI",
-      "source_type": "outlet",
-      "score": 23
-    },
-    {
-      "title": "Silverback AI Chatbot Announces Platform Enhancements to Strengthen Intelligent Conversational Support Across Digital Channels - Palm Beach Daily News",
-      "summary": "Silverback AI Chatbot Announces Platform Enhancements to Strengthen Intelligent Conversational Support Across Digital Channels &nbsp;&nbsp; Palm Beach Daily News",
-      "url": "https://news.google.com/rss/articles/CBMilwJBVV95cUxNQXpxUGpTM2xLMVhBMkFtYmNsT1lEbGFFd2ZHODFIcmN2bWk3S3BGbXBZMzVJWjhuUXMtcTYzT19HMThGYUdRRnkyRzZQaDlMT2VIMHp3UmZqNnFmcmFkRUk0c1BCRHV4NWVDREpXb0pNQXdtNW5UazM1VEFKTXhyZkNjQndZYVFYQkdwTEtBQWRWcWl1QUhpcVlvRTFaMmszeDBreHJ4c2RFVzlRc0hoZzhNam5FMFJvMGltWC00NkV3cTExaTR3ZzVpY0hKdXZid2twX3hnUnNwUDBhaDJIdUlTZDQ0RnNBbjhjZTdtX1pYU0hXdkxGZFBhR1lqeUtPd09EYnZFWnI5dktQdG93OXdUaGpQd2c?oc=5",
-      "published": "Sat, 07 Mar 2026 10:06:38 GMT",
-      "source": "Google News - Conversational AI",
-      "source_type": "news",
-      "score": 20
-    },
-    {
-      "title": "Voice AI Agents Market Reaching USD 47.5 Billion By 2034 - vocal.media",
-      "summary": "Voice AI Agents Market Reaching USD 47.5 Billion By 2034 &nbsp;&nbsp; vocal.media",
-      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNWWNRMmhLY3U0Z0lzMXR2M0llRjlpekNVR3FtZ25NMTJQMFkxemZxZkFPbjJIX2g2YUUxSHRMbUJtUTNXc3NSdEpQR0pCYTJLSXN1NmYxRUQyOEl2dDNCRTdXeEdtUTV1MkFuSEVIWWctelVfb0R1d3V0cmVuMFdRV1Bnc3ZJRk1YbGMySVFn?oc=5",
-      "published": "Fri, 06 Mar 2026 07:58:37 GMT",
-      "source": "Google News - Conversational AI",
-      "source_type": "news",
-      "score": 20
-    },
-    {
-      "title": "ElevenLabs' Infrastructure Bet: Scaling the Voice AI S-Curve with NVIDIA Blackwell - Bitget",
-      "summary": "ElevenLabs' Infrastructure Bet: Scaling the Voice AI S-Curve with NVIDIA Blackwell &nbsp;&nbsp; Bitget",
-      "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5zOGFfck1waVd3Y2JnclpUcEJMM0VIWndFSno0NmtDZUVlYjlDSTNoc1ptdjBoNEZEMm43YzVoQjh3TDhtbFVPOHdEaWhVMnhpUllsa1F4WkZuU2EwaVHSAWNBVV95cUxOenVGUy1LQzVUeGhuc25Kc0dJUG1qTUlrMXRzanJCQ2ptQm9LYjEwVjNvOUE3eFo5aEZYcDlBcWw0WnhVSk10b2QtODdENmhDVUIzVVhsaXRSWU1BN3JVTFJEc0E?oc=5",
-      "published": "Sat, 28 Feb 2026 04:10:05 GMT",
-      "source": "Google News - ElevenLabs",
-      "source_type": "company",
-      "score": 20
-    },
-    {
-      "title": "Interactions Is Now Part of SoundHound AI - SoundHound",
-      "summary": "Interactions Is Now Part of SoundHound AI &nbsp;&nbsp; SoundHound",
-      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOTDdoaGpLZWM4WURGWkVLamhwN2NvcGROam9yenpvSEx2T3Ewcl9CUkRiaHJOWTlwa0YzbVZCSXVQVHZOZlMxSDk3SEdEWVNaVlcwNnpSUXZUS2dDTlR6X3Q5SEV5VXBNVUZkLTR5V29vcGRwbDFpVllpQUtZOGJCeU51SVMtQzg?oc=5",
-      "published": "Fri, 06 Mar 2026 03:34:28 GMT",
-      "source": "Google News - Conversational AI",
-      "source_type": "news",
-      "score": 15
-    },
-    {
-      "title": "Introducing GPT-5.4",
-      "summary": "Introducing GPT-5.4, OpenAI’s most most capable and efficient frontier model for professional work, with state-of-the-art coding, computer use, tool search, and 1M-token context.",
-      "url": "https://openai.com/index/introducing-gpt-5-4",
-      "published": "Thu, 05 Mar 2026 10:00:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "Reasoning models struggle to control their chains of thought, and that’s good",
-      "summary": "OpenAI introduces CoT-Control and finds reasoning models struggle to control their chains of thought, reinforcing monitorability as an AI safety safeguard.",
-      "url": "https://openai.com/index/reasoning-models-chain-of-thought-controllability",
-      "published": "Thu, 05 Mar 2026 10:00:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "GPT-5.4 Thinking System Card",
-      "summary": "",
-      "url": "https://openai.com/index/gpt-5-4-thinking-system-card",
-      "published": "Thu, 05 Mar 2026 10:00:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "Ensuring AI use in education leads to opportunity",
-      "summary": "OpenAI shares new tools, certifications, and measurement resources to help schools and universities close AI capability gaps and expand opportunity.",
-      "url": "https://openai.com/index/ai-education-opportunity",
-      "published": "Thu, 05 Mar 2026 09:00:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "Introducing the Adoption news channel",
-      "summary": "Practical insights and frameworks to turn AI progress into business advantage",
-      "url": "https://openai.com/index/introducing-the-adoption-news-channel",
-      "published": "Thu, 05 Mar 2026 00:00:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
+      "score": 34,
+      "domain": "techcrunch.com",
+      "topic_hits": 0
     },
     {
       "title": "Introducing ChatGPT for Excel and new financial data integrations",
@@ -533,421 +91,42 @@
       "published": "Thu, 05 Mar 2026 00:00:00 GMT",
       "source": "OpenAI News",
       "source_type": "official",
-      "score": 15
+      "score": 34,
+      "domain": "openai.com",
+      "topic_hits": 0
     },
     {
-      "title": "Extending single-minus amplitudes to gravitons",
-      "summary": "A new preprint extends single-minus amplitudes to gravitons, with GPT-5.2 Pro helping derive and verify nonzero graviton tree amplitudes in quantum gravity.",
-      "url": "https://openai.com/index/extending-single-minus-amplitudes-to-gravitons",
-      "published": "Wed, 04 Mar 2026 10:00:00 GMT",
+      "title": "How Descript enables multilingual video dubbing at scale",
+      "summary": "Descript uses OpenAI models to scale multilingual video dubbing, optimizing translations for both meaning and timing so dubbed speech sounds natural across languages.",
+      "url": "https://openai.com/index/descript",
+      "published": "Fri, 06 Mar 2026 10:00:00 GMT",
       "source": "OpenAI News",
       "source_type": "official",
-      "score": 15
+      "score": 32,
+      "domain": "openai.com",
+      "topic_hits": 0
     },
     {
-      "title": "How Axios uses AI to help deliver high-impact local journalism",
-      "summary": "Axios COO Allison Murphy explains how the company uses AI to support local reporters, streamline newsroom workflows, and deliver high-impact local journalism at scale.",
-      "url": "https://openai.com/index/axios-allison-murphy",
-      "published": "Wed, 04 Mar 2026 00:00:00 GMT",
+      "title": "How Balyasny Asset Management built an AI research engine for investing",
+      "summary": "See how Balyasny built an AI research system with GPT-5.4, rigorous model evaluation, and agent workflows to transform investment analysis at scale.",
+      "url": "https://openai.com/index/balyasny-asset-management",
+      "published": "Fri, 06 Mar 2026 07:00:00 GMT",
       "source": "OpenAI News",
       "source_type": "official",
-      "score": 15
+      "score": 32,
+      "domain": "openai.com",
+      "topic_hits": 0
     },
     {
-      "title": "Understanding AI and learning outcomes",
-      "summary": "OpenAI introduces the Learning Outcomes Measurement Suite to assess AI’s impact on student learning across diverse educational environments over time.",
-      "url": "https://openai.com/index/understanding-ai-and-learning-outcomes",
-      "published": "Wed, 04 Mar 2026 00:00:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "Gemini 3.1 Flash-Lite: Built for intelligence at scale",
-      "summary": "Gemini 3.1 Flash-Lite is our fastest and most cost-efficient Gemini 3 series model yet.",
-      "url": "https://deepmind.google/blog/gemini-3-1-flash-lite-built-for-intelligence-at-scale/",
-      "published": "Tue, 03 Mar 2026 16:35:55 +0000",
-      "source": "Google DeepMind Blog",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "GPT-5.3 Instant System Card",
-      "summary": "",
-      "url": "https://openai.com/index/gpt-5-3-instant-system-card",
-      "published": "Tue, 03 Mar 2026 10:00:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "GPT-5.3 Instant: Smoother, more useful everyday conversations",
-      "summary": "",
-      "url": "https://openai.com/index/gpt-5-3-instant",
-      "published": "Tue, 03 Mar 2026 10:00:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "ElevenLabs Expands Enterprise Footprint Via Google Cloud - radioworld.com",
-      "summary": "ElevenLabs Expands Enterprise Footprint Via Google Cloud &nbsp;&nbsp; radioworld.com",
-      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOZVl5ekwtOXlHWW5ucUhZeDJvRFdkYm1ndFpRSV9UWnJzdG1tYnB3Y1NlRFVZcFp4bk13dFY0VV9vSUM0akdXdG9xVzR2VWpVaW5YYXlmVTNPYVlnMU5Ta2h1dG5pVDVXWGZUZ0xLSnlYemR0UV93U1dJNUFEcGlIMmp2MUEwVjVnd3B4bExaWENPMUROM0RoN2QyLXdXaktSblAzSU00Z3hGdw?oc=5",
-      "published": "Mon, 02 Mar 2026 19:06:26 GMT",
-      "source": "Google News - ElevenLabs",
-      "source_type": "company",
-      "score": 15
-    },
-    {
-      "title": "Our agreement with the Department of War",
-      "summary": "Details on OpenAI’s contract with the Department of War, outlining safety red lines, legal protections, and how AI systems will be deployed in classified environments.",
-      "url": "https://openai.com/index/our-agreement-with-the-department-of-war",
-      "published": "Sat, 28 Feb 2026 12:30:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "ElevenLabs expands Google Cloud collaboration with Blackwell GPUs - CNBC TV18",
-      "summary": "ElevenLabs expands Google Cloud collaboration with Blackwell GPUs &nbsp;&nbsp; CNBC TV18",
-      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPa2VBZ2JhazZjZlc3QzdLcGtGWnQ0d2Jfei1hc0hkZ1JyQzBwcG9qOXhKRlVnMlpqMXlTUmFRbEp5YnpQd0ppemhmQVBoRExOa0VGckl0T3dkVWc1RVpLdDlEVWFsTHdNOE1ETm4tUHBaaW9rWHg5djBkM043b3RjbmdTYWpzTjhIR0Rla1ZRaEhfUjJHUzlJMEk4ejFBRnNwVmY2U2pXa2c5ajVYNlhEUExLWlhKbDRM0gG-AUFVX3lxTE9qUVBDZ09rS094d2FrUUFwYVUxeTEzX1dhekpaVEZYYXFfYmhwcU9wVmdLUXk3T2tWa0UtUWt6LVBpVUFKaGlaLWYxQkJRVXBqMFVBY1A3MEMxUmJHdXdtYTJSLTFUdGoxZnFmWnZGaGczUHpzbHpMS1BvZDV4cFk1enN1d01JeVdiNHJ0ZDNCTVZqajFVX0ZyOFlXS3hKLVo2Vk0tdU9WMFpiOXhpNGpxcWtxU1NxajZwN0tBNUE?oc=5",
-      "published": "Fri, 27 Feb 2026 08:00:00 GMT",
-      "source": "Google News - ElevenLabs",
-      "source_type": "company",
-      "score": 15
-    },
-    {
-      "title": "ElevenLabs Bets Big on Google Cloud for Enterprise AI Voice Supremacy - Whalesbook",
-      "summary": "ElevenLabs Bets Big on Google Cloud for Enterprise AI Voice Supremacy &nbsp;&nbsp; Whalesbook",
-      "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOMXVEQW5MbnZ3Rm1yUWJ4MEw1cl9PTnM5VVI4R2duS2VWRWFxUndKYldFQXVrUDJVR0N4cHRhWmlVZTF1cTNHWVBxTDJGQW9rbU9mRnJCeERPUkZXMmlENXNNSnlZZFZnZzJ0Wm9kTFdwbUtQdlRxSVppWnF1bEE4Wm9ULWRZLUtDTE43NlpkQVg2MVJGLTB1a2dBN190alJBYVVMWnVUQUd2R1U2b3pub2d0aDhpVUVraC1DODhDVnhwVExSVE9nbEg5MmNBdWpIUUJFclln?oc=5",
-      "published": "Fri, 27 Feb 2026 08:00:00 GMT",
-      "source": "Google News - ElevenLabs",
-      "source_type": "company",
-      "score": 15
-    },
-    {
-      "title": "Introducing the Stateful Runtime Environment for Agents in Amazon Bedrock",
-      "summary": "Stateful Runtime for Agents in Amazon Bedrock brings persistent orchestration, memory, and secure execution to multi-step AI workflows powered by OpenAI.",
-      "url": "https://openai.com/index/introducing-the-stateful-runtime-environment-for-agents-in-amazon-bedrock",
-      "published": "Fri, 27 Feb 2026 05:30:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "Scaling AI for everyone",
-      "summary": "Today we’re announcing $110B in new investment at a $730B pre money valuation. This includes $30B from SoftBank, $30B from NVIDIA, and $50B from Amazon.",
-      "url": "https://openai.com/index/scaling-ai-for-everyone",
-      "published": "Fri, 27 Feb 2026 05:30:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "Joint Statement from OpenAI and Microsoft",
-      "summary": "Microsoft and OpenAI continue to work closely across research, engineering, and product development, building on years of deep collaboration and shared success.",
-      "url": "https://openai.com/index/continuing-microsoft-partnership",
-      "published": "Fri, 27 Feb 2026 05:30:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "OpenAI and Amazon announce strategic partnership",
-      "summary": "OpenAI and Amazon announce a strategic partnership bringing OpenAI’s Frontier platform to AWS, expanding AI infrastructure, custom models, and enterprise AI agents.",
-      "url": "https://openai.com/index/amazon-partnership",
-      "published": "Fri, 27 Feb 2026 05:30:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "ElevenLabs Doubles Down On Google Cloud To Scale Enterprise AI Voice Globally - BusinessToday Malaysia",
-      "summary": "ElevenLabs Doubles Down On Google Cloud To Scale Enterprise AI Voice Globally &nbsp;&nbsp; BusinessToday Malaysia",
-      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQMTFhZ0pDbW9tbU9Xc3dnT093MURoamFhdEVVTU0xUEIyN05JSXNUeU82VE82bEJzbXVDRXZ0NGJTSEJLTUk2UHRpU0JqQUtWV25EbWFJRFV5Rk5wdXprUFhIQTNrLWhNOEd5bTNvNFJIdFlsTllwMjh5YWJKUkZSakVNT2liTElBVDlhLXl0b0ptREFRekljNFhCWWJWRVp0THRveEpEZTgxODh1WlZiVmVZdEtEU3NxOVNvbHd3bw?oc=5",
-      "published": "Fri, 27 Feb 2026 02:37:29 GMT",
-      "source": "Google News - ElevenLabs",
-      "source_type": "company",
-      "score": 15
-    },
-    {
-      "title": "An update on our mental health-related work",
-      "summary": "OpenAI shares updates on its mental health safety work, including parental controls, trusted contacts, improved distress detection, and recent litigation developments.",
-      "url": "https://openai.com/index/update-on-mental-health-related-work",
-      "published": "Fri, 27 Feb 2026 00:00:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "Nano Banana 2: Combining Pro capabilities with lightning-fast speed",
-      "summary": "Our latest image generation model offers advanced world knowledge, production ready specs, subject consistency and more, all at Flash speed.",
-      "url": "https://deepmind.google/blog/nano-banana-2-combining-pro-capabilities-with-lightning-fast-speed/",
-      "published": "Thu, 26 Feb 2026 16:01:50 +0000",
-      "source": "Google DeepMind Blog",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "ElevenLabs and Google Cloud expand AI partnership with NVIDIA Blackwell GPU support - The Next Web",
-      "summary": "ElevenLabs and Google Cloud expand AI partnership with NVIDIA Blackwell GPU support &nbsp;&nbsp; The Next Web",
-      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOQUVsU1lSRmppOHBDSzBQc1J5TS1zYU9GM0pmRllITVZXeV81Z09rR2UtWnZ2TW1uSmFORm1SVTZBLVhnUGo0dUp6OWF3YXV0ZFYwNmhnbXVHczgzT1UxUXRSQzNGOGNBUEpiUkRMR2JDRE9HTTlLOWZEMzFiR3RyVGhxUVlqeDd6S2tGZk82clFfLS1wb28zcUlDaDk0ZW5NODNUdXczREloMEtuaWw1Nw?oc=5",
-      "published": "Thu, 26 Feb 2026 13:43:00 GMT",
-      "source": "Google News - ElevenLabs",
-      "source_type": "company",
-      "score": 15
-    },
-    {
-      "title": "Pacific Northwest National Laboratory and OpenAI partner to accelerate federal permitting",
-      "summary": "OpenAI and Pacific Northwest National Laboratory introduce DraftNEPABench, a new benchmark evaluating how AI coding agents can accelerate federal permitting—showing potential to reduce NEPA drafting time by up to 15% and modernize infrastructure reviews.",
-      "url": "https://openai.com/index/pacific-northwest-national-laboratory",
-      "published": "Thu, 26 Feb 2026 10:00:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "ElevenLabs Partners with Google Cloud for Cloud Services and the Latest NVIDIA Blackwell GPUs - PR Newswire",
-      "summary": "ElevenLabs Partners with Google Cloud for Cloud Services and the Latest NVIDIA Blackwell GPUs &nbsp;&nbsp; PR Newswire",
-      "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxOSTFmLVJsTkhXUTFCQlNHS0lnT05wX0hwRkNzcUxCanhEM3dsN090dEQ1eXg0RS01VmdmaDZuSENKd1NqcEVOTEhNTHgtWWFDSWYzdzVXYlhVbGdBc2lKRVd3Q0FJZW5TcDNRNjZaQWE3TllacS1VYi1KWkNvMG1KTk5YRS1XR1FOSi1ucEhIZnpmcGZ3LWNKZFdpTHV5a0wtbm1adHNka3J5RDZubEZvUEZqRUplX1hHNi1LWkNXTjJSbGNqT3F0eFJJOGVna3R2VE1rZnYzZ0VLN1lGQmREMFdlSQ?oc=5",
-      "published": "Thu, 26 Feb 2026 08:00:00 GMT",
-      "source": "Google News - ElevenLabs",
-      "source_type": "company",
-      "score": 15
-    },
-    {
-      "title": "OpenAI Codex and Figma launch seamless code-to-design experience",
-      "summary": "OpenAI and Figma launch a new Codex integration that connects code and design, enabling teams to move between implementation and the Figma canvas to iterate and ship faster.",
-      "url": "https://openai.com/index/figma-partnership",
-      "published": "Thu, 26 Feb 2026 06:00:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "ElevenLabs and Better.com Showcase Success of AI Loan Agent, Betsy™, at Scale in Financial Services - Business Wire",
-      "summary": "ElevenLabs and Better.com Showcase Success of AI Loan Agent, Betsy™, at Scale in Financial Services &nbsp;&nbsp; Business Wire",
-      "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxQbzNsRXc4Ym1RYk94ZWI1bFBhcm5EX0VTVEFTMEJMQUM1cUtEa2VnNW9MdkJVNVRDR1RkNmFaMkdqaGt0U2w3MG1INF9pVTlBWVRmRU9GVE9jS043Xy1RMVZqRHVXQWE5aVlPSnMybXZqMlJIalBSUnZ0TGFPWmJlSjNSbjdiQjE1YU5rTlM5dUdUQmJsZ08zUS1SVXp3ckRjWFh2Y0ttSlZWcFpSSEMtMEtNZFdNdVhkZ2w4WUtEYTc5TlRtTU5KMFFXdTFIY3k4d1IyRVQ0Y3BYQzhyZ1dBbXNvSXR4RXAy?oc=5",
-      "published": "Wed, 25 Feb 2026 08:00:00 GMT",
-      "source": "Google News - ElevenLabs",
-      "source_type": "company",
-      "score": 15
-    },
-    {
-      "title": "Disrupting malicious uses of AI | February 2026",
-      "summary": "Our latest threat report examines how malicious actors combine AI models with websites and social platforms—and what it means for detection and defense.",
-      "url": "https://openai.com/index/disrupting-malicious-ai-uses",
-      "published": "Wed, 25 Feb 2026 00:00:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "Arvind KC appointed Chief People Officer",
-      "summary": "OpenAI appoints Arvind KC as Chief People Officer to help scale the company, strengthen its culture, and lead how work evolves in the age of AI.",
-      "url": "https://openai.com/index/arvind-kc-chief-people-officer",
-      "published": "Tue, 24 Feb 2026 13:40:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "Why we no longer evaluate SWE-bench Verified",
-      "summary": "SWE-bench Verified is increasingly contaminated and mismeasures frontier coding progress. Our analysis shows flawed tests and training leakage. We recommend SWE-bench Pro.",
-      "url": "https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified",
-      "published": "Mon, 23 Feb 2026 11:00:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "OpenAI announces Frontier Alliance Partners",
-      "summary": "OpenAI announces Frontier Alliance Partners to help enterprises move from AI pilots to production with secure, scalable agent deployments.",
-      "url": "https://openai.com/index/frontier-alliance-partners",
-      "published": "Mon, 23 Feb 2026 05:30:00 GMT",
-      "source": "OpenAI News",
-      "source_type": "official",
-      "score": 15
-    },
-    {
-      "title": "FineVoice Review: I Cloned My Voice with AI in 30 Seconds - Unite.AI",
-      "summary": "FineVoice Review: I Cloned My Voice with AI in 30 Seconds &nbsp;&nbsp; Unite.AI",
-      "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE41b1JkeVg4MkYzaXZVaVlSODFQSlFzNC1XWU9sSmpuWEpZV0o2Q0xNVXNSaGQ0WExGQlFzMjVtWHEtTEhWLWJER1dVS0c4SGs?oc=5",
-      "published": "Tue, 03 Mar 2026 23:22:45 GMT",
-      "source": "Google News - Murf",
-      "source_type": "company",
-      "score": 10
-    },
-    {
-      "title": "Summon This AI Agent by Speaking Its Wake Word Mid-Phone Call - WIRED",
-      "summary": "Summon This AI Agent by Speaking Its Wake Word Mid-Phone Call &nbsp;&nbsp; WIRED",
-      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPNWNwNktRRDFEOVJpUEs4TVhqSDF0TmpPMlVXN09JdmNlcWJObDdKaGRzcmE3NXlxN2QtZXZNcDhsRGlyc3ZWU1NZSzE4WVhhWmJGczh2MFR1Q05EYVhFSGRfN3NxeGNBVlV6c1hXQ3YwSFoxNkdlMS0xVENLN29oVHB5UTVROFU?oc=5",
-      "published": "Tue, 03 Mar 2026 00:25:00 GMT",
-      "source": "Google News - ElevenLabs",
-      "source_type": "company",
-      "score": 10
-    },
-    {
-      "title": "Amadeus Drives Next Generation Travel Automation with SkyLink Technology Redefining Corporate Travel and Digital Engagement - Travel And Tour World",
-      "summary": "Amadeus Drives Next Generation Travel Automation with SkyLink Technology Redefining Corporate Travel and Digital Engagement &nbsp;&nbsp; Travel And Tour World",
-      "url": "https://news.google.com/rss/articles/CBMiggJBVV95cUxPVGE0ZzlzY2hnRXVFUWNjdmpBVC1oUFBNb3hrWkxCai00RzYxQ1ZzczZSVlVkTFVtaTJieTQ5S3YzdnR3SVF4ZFc1dGVmY2xyMUF2bjJ5Vzg5Yi0tSFVvbC1OZXl5YnhkNDNYS0NicDFjQ1YwY3FsU1RGLTJVdy10M1dPWTZtanlYbEozY05GOFVJRVhSQWVvTVNRdEY5QjJMUFZfNzlBaXRhblBsTDlzbHFSOXRVeFZUUFZsaVRLMDlKR285RTVmVzVEaWpneTZRbktaRHRFUk9INklDMG03QWNxQkVYNUdXcDVsNWF5aGlGekU1MUVxdE5sMnhiblltSFE?oc=5",
-      "published": "Sat, 28 Feb 2026 03:16:30 GMT",
-      "source": "Google News - Cognigy",
-      "source_type": "company",
-      "score": 10
-    },
-    {
-      "title": "Chatbot Market Thrives on CRM Integration, Cloud Deployment, and Conversational AI Advances | DataM Intelligence - AiThority",
-      "summary": "Chatbot Market Thrives on CRM Integration, Cloud Deployment, and Conversational AI Advances | DataM Intelligence &nbsp;&nbsp; AiThority",
-      "url": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxQd2tSc09vRFVfdzFucV8wTnlYV2JMS0kzYWxaei1QRE5aNS01ZGc4dlpMQThQX29XbGtDMGowcExObGNXbWhuZ3QyVDgxeFlBZVNPUjI1UEJhQWg2Yk5XdnJlV3FfY1lQdVdPSTl5M2hTS0U1ZndxN1VCLXZ4d0N1UzNzNnFFN0drWXN0eXdPbWhUNk9BbFZWQnQtMjl3dXZiMXFSZm55UUM4MWNCRmZqQ0RfWjRBc3o0OUh6dUtuU0dqV29idktFTDQwRkk3b09haUxJdGRldWpmLTRybTU4aGlOVFQ4dw?oc=5",
-      "published": "Fri, 27 Feb 2026 14:20:50 GMT",
-      "source": "Google News - Conversational AI",
-      "source_type": "news",
-      "score": 10
-    },
-    {
-      "title": "I built an AI assistant with its own phone number in 10 minutes — here’s how - Tom's Guide",
-      "summary": "I built an AI assistant with its own phone number in 10 minutes — here’s how &nbsp;&nbsp; Tom's Guide",
-      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQOVJRY2RIcmJOMkU1TUNYSGcwLW5sa3phWFpodjdJYUVjRWFEWTV1b2lOamxXd3daSm9YSURBRm5SUG5WdF9HeXFmdnBhcXNHZTBrbHYxNXpIdWw4YWRyT2NyMmw5cU14YnR2T0dNNUQ5NGJUSUVWMFk3MEt6NEtSM2dTNHJoSGdjbGFfcEtUcHl1bXFRS2xIU2tjWWxYYUZ1VGF6MQ?oc=5",
-      "published": "Fri, 27 Feb 2026 08:00:00 GMT",
-      "source": "Google News - ElevenLabs",
-      "source_type": "company",
-      "score": 10
-    },
-    {
-      "title": "Amadeus To Acquire SkyLink, Orchestration and Conversational Automation Provider - Business Travel Executive",
-      "summary": "Amadeus To Acquire SkyLink, Orchestration and Conversational Automation Provider &nbsp;&nbsp; Business Travel Executive",
-      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNbWpuTENqNHUwVnB2VGZsMi1ZMkYxd1BhVzIwbWFLcE9xNmpBNnhtNUFqdFd0UUtZbzd5Q3dMMWNFNjhMVzR5eXpoaUNQN3IxazV1cC03RGt1WjJFX1dQc2hFeFprUFk3MzVXa21PVWkza0tZdFdiM2d5U0JGR3hBSXppczV0VnVjTzd6RElpS0NyLVVESzdxN2JfOU9kYjVLUlRLaFI0d2tCNEtTRndmMWtTbmJvSkZJYzNqQ3lwZHVxMnc?oc=5",
-      "published": "Thu, 26 Feb 2026 14:14:18 GMT",
-      "source": "Google News - Cognigy",
-      "source_type": "company",
-      "score": 10
-    },
-    {
-      "title": "SoundHound to Post Q4 Earnings: Buy, Sell or Hold the Stock? - TradingView",
-      "summary": "SoundHound to Post Q4 Earnings: Buy, Sell or Hold the Stock? &nbsp;&nbsp; TradingView",
-      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPVGEzOG9OOHVmbzVfOFZEU0U2N0dmZjRQZERLSVYzY0FNLUxuczJIR3QtRTB3ZUZOdERiUklCU0lCcUhudEFGV05xOUJvS01FdnprOWlSRUl2QlYzamVhRzVYeVo0M0pnalF2eGhkbWZ4akNnSjBPeTdGdzhIUmxEYjlZeEhnRTdPTEkzN0hTdF9JOHMyeFFPdGRNWnY5VzZyQWhGbTY5aXlSNG5XUjcyYzBOVQ?oc=5",
-      "published": "Tue, 24 Feb 2026 16:56:00 GMT",
-      "source": "Google News - NICE",
-      "source_type": "company",
-      "score": 10
-    },
-    {
-      "title": "AWS launches a new AI agent platform specifically for healthcare",
-      "summary": "AWS is launching Amazon Connect Health, an AI agent platform that will help with patient scheduling, documentation, and patient verification.",
-      "url": "https://techcrunch.com/2026/03/05/aws-amazon-connect-health-ai-agent-platform-health-care-providers/",
-      "published": "Thu, 05 Mar 2026 21:54:37 +0000",
+      "title": "A roadmap for AI, if anyone will listen",
+      "summary": "The Pro-Human Declaration was finalized before last week's Pentagon-Anthropic standoff, but the collision of the two events wasn’t lost on anyone involved.",
+      "url": "https://techcrunch.com/2026/03/07/a-roadmap-for-ai-if-anyone-will-listen/",
+      "published": "Sun, 08 Mar 2026 06:05:26 +0000",
       "source": "TechCrunch AI",
       "source_type": "outlet",
-      "score": 8
-    },
-    {
-      "title": "US reportedly considering sweeping new chip export controls",
-      "summary": "In an alleged drafted proposal, the U.S. government would play a role in every chip export sale regardless of which country it's coming from.",
-      "url": "https://techcrunch.com/2026/03/05/us-reportedly-considering-sweeping-new-chip-export-controls/",
-      "published": "Thu, 05 Mar 2026 21:24:50 +0000",
-      "source": "TechCrunch AI",
-      "source_type": "outlet",
-      "score": 8
-    },
-    {
-      "title": "It’s official: The Pentagon has labeled Anthropic a supply-chain risk",
-      "summary": "The Department of Defense has officially labeled Anthropic a supply-chain risk, making the AI firm the first American company with the label. Meanwhile, the DOD continues to use Anthropic's AI in Iran.",
-      "url": "https://techcrunch.com/2026/03/05/its-official-the-pentagon-has-labeled-anthropic-a-supply-chain-risk/",
-      "published": "Thu, 05 Mar 2026 20:24:25 +0000",
-      "source": "TechCrunch AI",
-      "source_type": "outlet",
-      "score": 8
-    },
-    {
-      "title": "Netflix is buying Ben Affleck’s AI startup",
-      "summary": "Though Netflix lost the war for Warner Bros., it has just bought an AI startup from the internet's favorite Dunkin' Donuts aficionado. Today, Netflix announced that it has acquired InterPositive, Ben Affleck's AI company that specializes in tools for film and television production. The deal will see all 16 of InterPositive's current team of engineers [&#8230;]",
-      "url": "https://www.theverge.com/streaming/889973/netflix-ben-affleck-interpositive-ai",
-      "published": "2026-03-05T13:27:16-05:00",
-      "source": "The Verge AI",
-      "source_type": "outlet",
-      "score": 8
-    },
-    {
-      "title": "Luma launches creative AI agents powered by its new ‘Unified Intelligence’ models",
-      "summary": "Luma introduced Luma Agents, powered by its new “Unified Intelligence” models, designed to coordinate multiple AI systems and generate end-to-end creative work across text, images, video and audio.",
-      "url": "https://techcrunch.com/2026/03/05/exclusive-luma-launches-creative-ai-agents-powered-by-its-new-unified-intelligence-models/",
-      "published": "Thu, 05 Mar 2026 18:11:36 +0000",
-      "source": "TechCrunch AI",
-      "source_type": "outlet",
-      "score": 8
-    },
-    {
-      "title": "OpenAI’s new GPT-5.4 model is a big step toward autonomous agents",
-      "summary": "OpenAI is launching GPT-5.4, the latest version of its AI model that the company says combines advancements in reasoning, coding, and professional work involving spreadsheets, documents, and presentations. It's also OpenAI's first model with native computer use capabilities, meaning it can operate a computer on your behalf and complete tasks across different applications. The new [&#8230;]",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/889926/openai-gpt-5-4-model-release-ai-agents",
-      "published": "2026-03-05T13:00:00-05:00",
-      "source": "The Verge AI",
-      "source_type": "outlet",
-      "score": 8
-    },
-    {
-      "title": "Meta’s AI glasses reportedly send sensitive footage to human reviewers in Kenya",
-      "summary": "Meta's AI-powered smart glasses could be sending sensitive footage to human reviewers in Nairobi, Kenya, according to an investigation by the Swedish outlets Svenska Dagbladet and G&#246;teborgs-Posten. The report, which was published last week, claims Meta contractors in Kenya have seen videos captured with the smart glasses that show \"bathroom visits, sex and other intimate [&#8230;]",
-      "url": "https://www.theverge.com/tech/889637/meta-ai-smart-glasses-human-reviewers-kenya",
-      "published": "2026-03-05T11:37:52-05:00",
-      "source": "The Verge AI",
-      "source_type": "outlet",
-      "score": 8
-    },
-    {
-      "title": "Apple Music adds optional labels for AI songs and visuals",
-      "summary": "Apple is asking artists and record labels on its music streaming platform to voluntarily label songs that were made using AI. The new \"Transparency Tags\" metadata system for Apple Music was announced in a newsletter to industry partners yesterday, according to Music Business Worldwide, and covers four categories, including track, composition, artwork, and music videos. [&#8230;]",
-      "url": "https://www.theverge.com/tech/889836/apple-music-ai-transparency-tags-launch",
-      "published": "2026-03-05T09:00:00-05:00",
-      "source": "The Verge AI",
-      "source_type": "outlet",
-      "score": 8
-    },
-    {
-      "title": "AI tools can unmask anonymous accounts",
-      "summary": "Do you have a Reddit alt, secret X, finsta, or Glassdoor account you trash your boss with? AI might have just made it a lot easier to unmask you. That's the conclusion of a recently published study, which hints at some uncomfortable consequences for staying private online - even if it's not quite time to [&#8230;]",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/889395/ai-agents-unmask-anonymous-online-accounts",
-      "published": "2026-03-05T08:30:00-05:00",
-      "source": "The Verge AI",
-      "source_type": "outlet",
-      "score": 8
-    },
-    {
-      "title": "Anthropic makes last-ditch effort to salvage deal with Pentagon after blowup",
-      "summary": "Anthropic CEO Dario Amodei is reportedly back at the negotiating table with the Department of Defense in an attempt to salvage the company's relationship with the US military and prevent it from being iced out of defense work for being a \"supply chain risk.\" Talks between the two parties imploded on Friday after weeks of [&#8230;]",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/889782/anthropic-pentagon-discussions-ai-deal",
-      "published": "2026-03-05T06:46:46-05:00",
-      "source": "The Verge AI",
-      "source_type": "outlet",
-      "score": 8
-    },
-    {
-      "title": "IBM and Deepgram target enterprise automation with voice AI partnership - eeNews Europe",
-      "summary": "IBM and Deepgram target enterprise automation with voice AI partnership &nbsp;&nbsp; eeNews Europe",
-      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNbTJLcUdfLTE4S2cxSUNWWFRhNDJhVktsa0d5S01CTVhGaFBqdkVVYy1kb1dQcnN0MDZVZHBYWGFSamEwYlI3RUo5Mk5KclZNT1JfNWo5QXV5VXphdFdTQ1dwelViRUhSZVpFZE5jZ1dhT1NEcFVTNXJ2WEhobnJtQXFxUlgzOHh6TnQwaWxEXzUtTDJITHVMQVhHRV9DRmR6TkVOblRJOA?oc=5",
-      "published": "Thu, 05 Mar 2026 10:24:18 GMT",
-      "source": "Google News - Conversational AI",
-      "source_type": "news",
-      "score": 5
-    },
-    {
-      "title": "SoundHound's 59% Revenue Surge in 2025: What Does 2026 Hold? - The Globe and Mail",
-      "summary": "SoundHound's 59% Revenue Surge in 2025: What Does 2026 Hold? &nbsp;&nbsp; The Globe and Mail",
-      "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPci1rci1scU9JWGZpMmpsV1ByWkV5UkxDRVM5dG9Lakg0eWE1YkFGd2JuZlpQWVctZ3lLckdPV0N1UkZwV2hQa0k3NWJDcExOMDZDc2Y4TXRMM3pGYllDZWo4dElaTGRFOEI0UDVHR0gtYlZ0S0JLS1BUSXRTOWZxRzZncXBMVGtJX1Z5dUUwWW9FbzJ6MlNYblBxU3c3TTZaNENKbGhCSXR5U0hIRmJQLVcxNkIyZWRTUHZmREtoQlF3S3E4VjB4cUdURTVZU28xQ0NpeQ?oc=5",
-      "published": "Thu, 05 Mar 2026 16:39:36 GMT",
-      "source": "Google News - Conversational AI",
-      "source_type": "news",
-      "score": 0
-    },
-    {
-      "title": "AI in Sales: 15 Use Cases & Examples - AIMultiple",
-      "summary": "AI in Sales: 15 Use Cases & Examples &nbsp;&nbsp; AIMultiple",
-      "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9MeTNlT09ydmRhRTN4VTNRN2tpV1RQcWhIeVdzWGdmeEJ0QzFKVFlPTkFtaTZ3eG96SElwWGtlT3N1NDZ0Wmt1TERVeFAtZ2JMeFZj?oc=5",
-      "published": "Fri, 27 Feb 2026 08:00:00 GMT",
-      "source": "Google News - Conversational AI",
-      "source_type": "news",
-      "score": 0
+      "score": 30,
+      "domain": "techcrunch.com",
+      "topic_hits": 0
     }
   ],
   "errors": []
