@@ -296,6 +296,50 @@ async function fetchFeed(feed) {
   }
 }
 
+const FALLBACK_CONFIG = {
+  default_topics: [
+    "conversational ai",
+    "chatbots",
+    "voice bots",
+    "digital automation",
+    "contact center ai",
+  ],
+  search: {
+    enabled: true,
+    max_topics: 8,
+  },
+  quality: {
+    default_min_score: 30,
+    strict_min_score: 45,
+    noise_terms: ["sponsored", "coupon", "discount", "giveaway", "promo", "rumor", "roundup", "listicle", "op-ed"],
+    high_value_domains: [
+      "openai.com",
+      "anthropic.com",
+      "googleblog.com",
+      "deepmind.google",
+      "microsoft.com",
+      "aws.amazon.com",
+      "venturebeat.com",
+      "techcrunch.com",
+      "reuters.com",
+      "ft.com",
+      "wsj.com",
+      "bloomberg.com",
+    ],
+    low_value_domains: ["youtube.com", "youtu.be", "tiktok.com"],
+  },
+  feeds: [
+    { name: "VentureBeat AI", url: "https://venturebeat.com/category/ai/feed/", type: "outlet" },
+    { name: "TechCrunch AI", url: "https://techcrunch.com/category/artificial-intelligence/feed/", type: "outlet" },
+    { name: "The Verge AI", url: "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml", type: "outlet" },
+    { name: "OpenAI News", url: "https://openai.com/news/rss.xml", type: "official" },
+    { name: "Google DeepMind Blog", url: "https://deepmind.google/blog/rss.xml", type: "official" },
+    { name: "Microsoft AI Blog", url: "https://blogs.microsoft.com/ai/feed/", type: "official" },
+    { name: "AWS Machine Learning Blog", url: "https://aws.amazon.com/blogs/machine-learning/feed/", type: "official" },
+    { name: "HN RSS - AI", url: "https://hnrss.org/newest?q=%22artificial+intelligence%22+OR+chatbot+OR+automation", type: "community" },
+  ],
+};
+
 function loadConfig() {
   const candidates = [
     path.resolve(process.cwd(), "config/sources.json"),
@@ -310,7 +354,7 @@ function loadConfig() {
     return JSON.parse(raw);
   }
 
-  throw new Error("Config file not found. Expected config/sources.json in function bundle.");
+  return FALLBACK_CONFIG;
 }
 
 function parseBool(raw) {
@@ -440,5 +484,6 @@ exports.handler = async (event) => {
     };
   }
 };
+
 
 
