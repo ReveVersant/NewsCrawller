@@ -191,6 +191,25 @@
         border-radius: 10px;
         padding: 10px;
       }
+
+      .dead-feeds {
+        margin-top: 12px;
+        background: #fdeaea;
+        border: 1px solid #f2b8b8;
+        color: #a11;
+        border-radius: 10px;
+        padding: 10px;
+      }
+
+      .dead-feeds strong {
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .dead-feeds ul {
+        margin: 0;
+        padding-left: 18px;
+      }
     </style>
   </head>
   <body>
@@ -261,6 +280,7 @@
       </section>
 
       <section id="errors"></section>
+      <section id="deadFeeds"></section>
       <section id="results" class="grid"></section>
     </main>
 
@@ -300,6 +320,7 @@
       const modeEl = document.getElementById("mode");
       const resultsEl = document.getElementById("results");
       const errorsEl = document.getElementById("errors");
+      const deadFeedsEl = document.getElementById("deadFeeds");
       const keywordsEl = document.getElementById("keywords");
 
       function parseTopics(raw) {
@@ -367,6 +388,28 @@
         div.className = "error";
         div.textContent = `Some feeds failed this refresh: ${errors.slice(0, 5).join(" | ")}`;
         errorsEl.appendChild(div);
+      }
+
+      function renderDeadFeeds(deadFeeds) {
+        deadFeedsEl.innerHTML = "";
+        if (!deadFeeds || deadFeeds.length === 0) return;
+
+        const div = document.createElement("div");
+        div.className = "dead-feeds";
+
+        const heading = document.createElement("strong");
+        heading.textContent = `${deadFeeds.length} dead feed${deadFeeds.length === 1 ? "" : "s"} — permanently gone (404/410), update or remove in config:`;
+        div.appendChild(heading);
+
+        const list = document.createElement("ul");
+        deadFeeds.forEach((entry) => {
+          const li = document.createElement("li");
+          li.textContent = entry;
+          list.appendChild(li);
+        });
+        div.appendChild(list);
+
+        deadFeedsEl.appendChild(div);
       }
 
       function renderKeywords(keywords) {
@@ -446,6 +489,7 @@
           min_score_applied: minScore,
           strict_mode: strict,
           errors: snapshot.errors || [],
+          dead_feeds: snapshot.dead_feeds || [],
           count: items.length,
           items,
         };
@@ -509,6 +553,7 @@
 
           renderKeywords(payload.topics_used || payload.tracked_keywords || topics);
           renderErrors(mergedErrors);
+          renderDeadFeeds(payload.dead_feeds);
           renderItems(payload.items);
           countEl.textContent = `${payload.count} items (${laneName}, min quality ${payload.min_score_applied ?? minScore})`;
           statusEl.textContent = payload.generated_at

@@ -323,13 +323,21 @@ async function fetchFeed(feed) {
       signal: controller.signal,
     });
 
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (!response.ok) {
+      // 404/410 mean the feed URL is permanently gone. Report it in a
+      // dedicated "dead" channel (separate from transient errors) so it is
+      // clearly flagged for removal rather than mistaken for a one-off failure.
+      if (response.status === 404 || response.status === 410) {
+        return { items: [], error: null, dead: `${feed.name} (HTTP ${response.status}): ${feed.url}` };
+      }
+      throw new Error(`HTTP ${response.status}`);
+    }
 
     const payload = await response.text();
     const items = parseFeed(payload, feed.name, feed.type || "outlet");
-    return { items, error: null };
+    return { items, error: null, dead: null };
   } catch (error) {
-    return { items: [], error: `${feed.name}: ${error.message}` };
+    return { items: [], error: `${feed.name}: ${error.message}`, dead: null };
   } finally {
     clearTimeout(timeout);
   }
@@ -346,7 +354,7 @@ const FALLBACK_CONFIG = {
     discovery_min_score: 18,
     discovery_strict: false,
     noise_terms: ["sponsored", "coupon", "discount", "giveaway", "promo", "rumor", "roundup", "listicle", "op-ed"],
-    high_value_domains: ["openai.com", "anthropic.com", "googleblog.com", "deepmind.google", "microsoft.com", "aws.amazon.com", "venturebeat.com", "techcrunch.com", "reuters.com", "ft.com", "wsj.com", "bloomberg.com"],
+    high_value_domains: ["openai.com", "anthropic.com", "googleblog.com", "blog.google", "deepmind.google", "microsoft.com", "ai.meta.com", "huggingface.co", "aws.amazon.com", "nvidia.com", "arxiv.org", "technologyreview.com", "arstechnica.com", "wired.com", "theregister.com", "zdnet.com", "venturebeat.com", "techcrunch.com", "theverge.com", "reuters.com", "ft.com", "wsj.com", "bloomberg.com"],
     low_value_domains: ["youtube.com", "youtu.be", "tiktok.com"],
   },
   feeds: [
@@ -354,16 +362,34 @@ const FALLBACK_CONFIG = {
     { name: "TechCrunch AI", url: "https://techcrunch.com/category/artificial-intelligence/feed/", type: "outlet" },
     { name: "The Verge AI", url: "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml", type: "outlet" },
     { name: "InfoQ AI/ML", url: "https://www.infoq.com/feed/", type: "outlet" },
+    { name: "MIT Technology Review AI", url: "https://www.technologyreview.com/topic/artificial-intelligence/feed/", type: "outlet" },
+    { name: "Ars Technica AI", url: "https://arstechnica.com/ai/feed/", type: "outlet" },
+    { name: "Wired AI", url: "https://www.wired.com/feed/tag/ai/latest/rss", type: "outlet" },
+    { name: "The Register AI/ML", url: "https://www.theregister.com/software/ai_ml/headlines.atom", type: "outlet" },
+    { name: "ZDNet AI", url: "https://www.zdnet.com/topic/artificial-intelligence/rss.xml", type: "outlet" },
+    { name: "The Decoder", url: "https://the-decoder.com/feed/", type: "outlet" },
+    { name: "MarkTechPost", url: "https://www.marktechpost.com/feed/", type: "outlet" },
+    { name: "SiliconANGLE AI", url: "https://siliconangle.com/category/ai/feed/", type: "outlet" },
     { name: "OpenAI News", url: "https://openai.com/news/rss.xml", type: "official" },
     { name: "Google DeepMind Blog", url: "https://deepmind.google/blog/rss.xml", type: "official" },
-    { name: "Microsoft AI Blog", url: "https://blogs.microsoft.com/ai/feed/", type: "official" },
+    { name: "Google AI (The Keyword)", url: "https://blog.google/technology/ai/rss/", type: "official" },
+    { name: "Microsoft AI Blog", url: "https://news.microsoft.com/source/topics/ai/feed/", type: "official" },
+    { name: "Microsoft Research Blog", url: "https://www.microsoft.com/en-us/research/feed/", type: "official" },
+    { name: "Meta AI Blog", url: "https://ai.meta.com/blog/rss/", type: "official" },
+    { name: "Hugging Face Blog", url: "https://huggingface.co/blog/feed.xml", type: "official" },
     { name: "AWS Machine Learning Blog", url: "https://aws.amazon.com/blogs/machine-learning/feed/", type: "official" },
     { name: "NVIDIA Blog", url: "https://blogs.nvidia.com/feed/", type: "official" },
     { name: "Google Cloud AI/ML Blog", url: "https://cloud.google.com/blog/products/ai-machine-learning/rss/", type: "official" },
+    { name: "arXiv cs.AI", url: "https://export.arxiv.org/rss/cs.AI", type: "outlet" },
+    { name: "arXiv cs.CL", url: "https://export.arxiv.org/rss/cs.CL", type: "outlet" },
+    { name: "arXiv cs.LG", url: "https://export.arxiv.org/rss/cs.LG", type: "outlet" },
+    { name: "Berkeley AI Research (BAIR)", url: "https://bair.berkeley.edu/blog/feed.xml", type: "official" },
     { name: "Google News - AI Industry Radar", url: "https://news.google.com/rss/search?q=%28artificial+intelligence+OR+enterprise+ai+OR+ai+automation%29&hl=en-US&gl=US&ceid=US:en", type: "news" },
     { name: "Google News - Enterprise Automation", url: "https://news.google.com/rss/search?q=%28enterprise+automation+OR+contact+center+automation+OR+customer+service+ai%29&hl=en-US&gl=US&ceid=US:en", type: "news" },
     { name: "Google News - Voice and Speech AI", url: "https://news.google.com/rss/search?q=%28voice+ai+OR+speech+ai+OR+voicebot+OR+text-to-speech%29&hl=en-US&gl=US&ceid=US:en", type: "news" },
     { name: "HN RSS - AI", url: "https://hnrss.org/newest?q=artificial+intelligence", type: "community" },
+    { name: "Reddit r/MachineLearning", url: "https://www.reddit.com/r/MachineLearning/.rss", type: "community" },
+    { name: "Reddit r/artificial", url: "https://www.reddit.com/r/artificial/.rss", type: "community" },
   ],
 };
 
@@ -416,8 +442,10 @@ async function collectNews({ hours = 72, maxItems = 150, topics = null, minScore
 
   const allItems = [];
   const errors = [];
+  const deadFeeds = [];
   for (const result of results) {
     if (result.error) errors.push(result.error);
+    if (result.dead) deadFeeds.push(result.dead);
     allItems.push(...result.items);
   }
 
@@ -476,6 +504,7 @@ async function collectNews({ hours = 72, maxItems = 150, topics = null, minScore
     count: final.length,
     items: final,
     errors,
+    dead_feeds: deadFeeds,
   };
 }
 
