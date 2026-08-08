@@ -324,19 +324,20 @@ async function fetchFeed(feed) {
     });
 
     if (!response.ok) {
-      // 404/410 mean the feed is permanently gone; skip quietly so a retired
-      // feed does not spam the diagnostics on every poll.
+      // 404/410 mean the feed URL is permanently gone. Report it in a
+      // dedicated "dead" channel (separate from transient errors) so it is
+      // clearly flagged for removal rather than mistaken for a one-off failure.
       if (response.status === 404 || response.status === 410) {
-        return { items: [], error: null };
+        return { items: [], error: null, dead: `${feed.name} (HTTP ${response.status}): ${feed.url}` };
       }
       throw new Error(`HTTP ${response.status}`);
     }
 
     const payload = await response.text();
     const items = parseFeed(payload, feed.name, feed.type || "outlet");
-    return { items, error: null };
+    return { items, error: null, dead: null };
   } catch (error) {
-    return { items: [], error: `${feed.name}: ${error.message}` };
+    return { items: [], error: `${feed.name}: ${error.message}`, dead: null };
   } finally {
     clearTimeout(timeout);
   }
@@ -441,8 +442,10 @@ async function collectNews({ hours = 72, maxItems = 150, topics = null, minScore
 
   const allItems = [];
   const errors = [];
+  const deadFeeds = [];
   for (const result of results) {
     if (result.error) errors.push(result.error);
+    if (result.dead) deadFeeds.push(result.dead);
     allItems.push(...result.items);
   }
 
@@ -501,6 +504,7 @@ async function collectNews({ hours = 72, maxItems = 150, topics = null, minScore
     count: final.length,
     items: final,
     errors,
+    dead_feeds: deadFeeds,
   };
 }
 

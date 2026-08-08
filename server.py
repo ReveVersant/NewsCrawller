@@ -18,9 +18,10 @@ USER_AGENT = "AI-News-Hub/2.1 (+local dashboard)"
 REQUEST_TIMEOUT_SECONDS = 12
 MAX_WORKERS = 16
 
-# HTTP statuses that mean the feed URL is permanently dead. These are skipped
-# quietly instead of surfaced as errors so a retired feed does not spam the
-# diagnostics on every poll.
+# HTTP statuses that mean the feed URL is permanently dead. These are reported
+# in a dedicated "dead_feeds" channel (separate from transient errors) so a
+# retired feed is clearly flagged for removal without being mistaken for a
+# one-off refresh failure.
 GONE_STATUSES = {404, 410}
 
 
@@ -384,20 +385,25 @@ def parse_feed(xml_bytes: bytes, source_name: str, source_type: str) -> list[dic
     return items
 
 
-def fetch_feed(feed: dict) -> tuple[list[dict], str | None]:
+def fetch_feed(feed: dict) -> tuple[list[dict], str | None, str | None]:
+    """Return (items, transient_error, dead_feed).
+
+    dead_feed is set (and transient_error left None) when the feed URL is
+    permanently gone (HTTP 404/410), so callers can report it separately from
+    ordinary transient failures.
+    """
     request = Request(feed["url"], headers={"User-Agent": USER_AGENT})
     try:
         with urlopen(request, timeout=REQUEST_TIMEOUT_SECONDS) as response:
             payload = response.read()
         parsed = parse_feed(payload, feed["name"], feed.get("type", "outlet"))
-        return parsed, None
+        return parsed, None, None
     except HTTPError as ex:
         if ex.code in GONE_STATUSES:
-            # Feed is permanently gone; skip quietly so it stops spamming.
-            return [], None
-        return [], f"{feed['name']}: {ex}"
+            return [], None, f"{feed['name']} (HTTP {ex.code}): {feed['url']}"
+        return [], f"{feed['name']}: {ex}", None
     except Exception as ex:
-        return [], f"{feed['name']}: {ex}"
+        return [], f"{feed['name']}: {ex}", None
 
 
 def lane_defaults(quality: dict, lane: str) -> tuple[str, int, bool]:
@@ -443,14 +449,17 @@ def collect_news(
 
     all_items: list[dict] = []
     errors: list[str] = []
+    dead_feeds: list[str] = []
     cutoff = datetime.now(UTC) - timedelta(hours=hours)
 
     with ThreadPoolExecutor(max_workers=min(MAX_WORKERS, max(len(feeds), 1))) as pool:
         jobs = [pool.submit(fetch_feed, feed) for feed in feeds]
         for job in as_completed(jobs):
-            items, err = job.result()
+            items, err, dead = job.result()
             if err:
                 errors.append(err)
+            if dead:
+                dead_feeds.append(dead)
             all_items.extend(items)
 
     by_link: dict[str, dict] = {}
@@ -515,6 +524,7 @@ def collect_news(
         "count": len(final),
         "items": final,
         "errors": errors,
+        "dead_feeds": dead_feeds,
     }
 
 
