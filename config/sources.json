@@ -32,11 +32,22 @@
       "openai.com",
       "anthropic.com",
       "googleblog.com",
+      "blog.google",
       "deepmind.google",
       "microsoft.com",
+      "ai.meta.com",
+      "huggingface.co",
       "aws.amazon.com",
+      "nvidia.com",
+      "arxiv.org",
+      "technologyreview.com",
+      "arstechnica.com",
+      "wired.com",
+      "theregister.com",
+      "zdnet.com",
       "venturebeat.com",
       "techcrunch.com",
+      "theverge.com",
       "reuters.com",
       "ft.com",
       "wsj.com",
@@ -70,6 +81,46 @@
       "type": "outlet"
     },
     {
+      "name": "MIT Technology Review AI",
+      "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed/",
+      "type": "outlet"
+    },
+    {
+      "name": "Ars Technica AI",
+      "url": "https://arstechnica.com/ai/feed/",
+      "type": "outlet"
+    },
+    {
+      "name": "Wired AI",
+      "url": "https://www.wired.com/feed/tag/ai/latest/rss",
+      "type": "outlet"
+    },
+    {
+      "name": "The Register AI/ML",
+      "url": "https://www.theregister.com/software/ai_ml/headlines.atom",
+      "type": "outlet"
+    },
+    {
+      "name": "ZDNet AI",
+      "url": "https://www.zdnet.com/topic/artificial-intelligence/rss.xml",
+      "type": "outlet"
+    },
+    {
+      "name": "The Decoder",
+      "url": "https://the-decoder.com/feed/",
+      "type": "outlet"
+    },
+    {
+      "name": "MarkTechPost",
+      "url": "https://www.marktechpost.com/feed/",
+      "type": "outlet"
+    },
+    {
+      "name": "SiliconANGLE AI",
+      "url": "https://siliconangle.com/category/ai/feed/",
+      "type": "outlet"
+    },
+    {
       "name": "OpenAI News",
       "url": "https://openai.com/news/rss.xml",
       "type": "official"
@@ -80,8 +131,28 @@
       "type": "official"
     },
     {
+      "name": "Google AI (The Keyword)",
+      "url": "https://blog.google/technology/ai/rss/",
+      "type": "official"
+    },
+    {
       "name": "Microsoft AI Blog",
-      "url": "https://blogs.microsoft.com/ai/feed/",
+      "url": "https://news.microsoft.com/source/topics/ai/feed/",
+      "type": "official"
+    },
+    {
+      "name": "Microsoft Research Blog",
+      "url": "https://www.microsoft.com/en-us/research/feed/",
+      "type": "official"
+    },
+    {
+      "name": "Meta AI Blog",
+      "url": "https://ai.meta.com/blog/rss/",
+      "type": "official"
+    },
+    {
+      "name": "Hugging Face Blog",
+      "url": "https://huggingface.co/blog/feed.xml",
       "type": "official"
     },
     {
@@ -97,6 +168,26 @@
     {
       "name": "Google Cloud AI/ML Blog",
       "url": "https://cloud.google.com/blog/products/ai-machine-learning/rss/",
+      "type": "official"
+    },
+    {
+      "name": "arXiv cs.AI",
+      "url": "https://export.arxiv.org/rss/cs.AI",
+      "type": "outlet"
+    },
+    {
+      "name": "arXiv cs.CL",
+      "url": "https://export.arxiv.org/rss/cs.CL",
+      "type": "outlet"
+    },
+    {
+      "name": "arXiv cs.LG",
+      "url": "https://export.arxiv.org/rss/cs.LG",
+      "type": "outlet"
+    },
+    {
+      "name": "Berkeley AI Research (BAIR)",
+      "url": "https://bair.berkeley.edu/blog/feed.xml",
       "type": "official"
     },
     {
@@ -117,6 +208,16 @@
     {
       "name": "HN RSS - AI",
       "url": "https://hnrss.org/newest?q=artificial+intelligence",
+      "type": "community"
+    },
+    {
+      "name": "Reddit r/MachineLearning",
+      "url": "https://www.reddit.com/r/MachineLearning/.rss",
+      "type": "community"
+    },
+    {
+      "name": "Reddit r/artificial",
+      "url": "https://www.reddit.com/r/artificial/.rss",
       "type": "community"
     }
   ]

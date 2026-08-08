@@ -5,6 +5,7 @@ from datetime import UTC, datetime, timedelta
 from email.utils import parsedate_to_datetime
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.error import HTTPError
 from urllib.parse import parse_qs, quote_plus, urlparse
 from urllib.request import Request, urlopen
 import xml.etree.ElementTree as ET
@@ -15,7 +16,12 @@ WEB_DIR = ROOT / "docs"
 
 USER_AGENT = "AI-News-Hub/2.1 (+local dashboard)"
 REQUEST_TIMEOUT_SECONDS = 12
-MAX_WORKERS = 8
+MAX_WORKERS = 16
+
+# HTTP statuses that mean the feed URL is permanently dead. These are skipped
+# quietly instead of surfaced as errors so a retired feed does not spam the
+# diagnostics on every poll.
+GONE_STATUSES = {404, 410}
 
 
 def load_config() -> dict:
@@ -385,6 +391,11 @@ def fetch_feed(feed: dict) -> tuple[list[dict], str | None]:
             payload = response.read()
         parsed = parse_feed(payload, feed["name"], feed.get("type", "outlet"))
         return parsed, None
+    except HTTPError as ex:
+        if ex.code in GONE_STATUSES:
+            # Feed is permanently gone; skip quietly so it stops spamming.
+            return [], None
+        return [], f"{feed['name']}: {ex}"
     except Exception as ex:
         return [], f"{feed['name']}: {ex}"
 
