@@ -354,7 +354,7 @@ const FALLBACK_CONFIG = {
     discovery_min_score: 18,
     discovery_strict: false,
     noise_terms: ["sponsored", "coupon", "discount", "giveaway", "promo", "rumor", "roundup", "listicle", "op-ed"],
-    high_value_domains: ["openai.com", "anthropic.com", "googleblog.com", "blog.google", "deepmind.google", "microsoft.com", "ai.meta.com", "huggingface.co", "aws.amazon.com", "nvidia.com", "arxiv.org", "technologyreview.com", "arstechnica.com", "wired.com", "theregister.com", "zdnet.com", "venturebeat.com", "techcrunch.com", "theverge.com", "reuters.com", "ft.com", "wsj.com", "bloomberg.com"],
+    high_value_domains: ["openai.com", "anthropic.com", "googleblog.com", "blog.google", "deepmind.google", "microsoft.com", "ai.meta.com", "huggingface.co", "aws.amazon.com", "nvidia.com", "technologyreview.com", "arstechnica.com", "wired.com", "theregister.com", "zdnet.com", "venturebeat.com", "techcrunch.com", "theverge.com", "reuters.com", "ft.com", "wsj.com", "bloomberg.com"],
     low_value_domains: ["youtube.com", "youtu.be", "tiktok.com"],
   },
   feeds: [
@@ -380,9 +380,6 @@ const FALLBACK_CONFIG = {
     { name: "AWS Machine Learning Blog", url: "https://aws.amazon.com/blogs/machine-learning/feed/", type: "official" },
     { name: "NVIDIA Blog", url: "https://blogs.nvidia.com/feed/", type: "official" },
     { name: "Google Cloud AI/ML Blog", url: "https://cloud.google.com/blog/products/ai-machine-learning/rss/", type: "official" },
-    { name: "arXiv cs.AI", url: "https://export.arxiv.org/rss/cs.AI", type: "outlet" },
-    { name: "arXiv cs.CL", url: "https://export.arxiv.org/rss/cs.CL", type: "outlet" },
-    { name: "arXiv cs.LG", url: "https://export.arxiv.org/rss/cs.LG", type: "outlet" },
     { name: "Berkeley AI Research (BAIR)", url: "https://bair.berkeley.edu/blog/feed.xml", type: "official" },
     { name: "Google News - AI Industry Radar", url: "https://news.google.com/rss/search?q=%28artificial+intelligence+OR+enterprise+ai+OR+ai+automation%29&hl=en-US&gl=US&ceid=US:en", type: "news" },
     { name: "Google News - Enterprise Automation", url: "https://news.google.com/rss/search?q=%28enterprise+automation+OR+contact+center+automation+OR+customer+service+ai%29&hl=en-US&gl=US&ceid=US:en", type: "news" },
