@@ -11,7 +11,11 @@ const XML = new XMLParser({
   textNodeName: "#text",
   cdataPropName: "__cdata",
   trimValues: true,
-  processEntities: true,
+  // fast-xml-parser >=4.5.7 caps entity expansions (default 1000 count /
+  // 100KB), which rejected valid entity-dense feeds (AWS ML, BAIR, Reddit)
+  // with "Entity expansion limit exceeded: NNNN > 1000". Raise the count cap
+  // and keep a bounded total expanded size as the real billion-laughs guard.
+  processEntities: { enabled: true, maxTotalExpansions: 10000000, maxExpandedLength: 50 * 1024 * 1024 },
 });
 
 function asArray(value) {
