@@ -354,7 +354,7 @@ const FALLBACK_CONFIG = {
     discovery_min_score: 18,
     discovery_strict: false,
     noise_terms: ["sponsored", "coupon", "discount", "giveaway", "promo", "rumor", "roundup", "listicle", "op-ed"],
-    high_value_domains: ["openai.com", "anthropic.com", "googleblog.com", "blog.google", "deepmind.google", "microsoft.com", "ai.meta.com", "huggingface.co", "aws.amazon.com", "nvidia.com", "technologyreview.com", "arstechnica.com", "wired.com", "theregister.com", "zdnet.com", "venturebeat.com", "techcrunch.com", "theverge.com", "reuters.com", "ft.com", "wsj.com", "bloomberg.com"],
+    high_value_domains: ["openai.com", "anthropic.com", "googleblog.com", "blog.google", "deepmind.google", "microsoft.com", "huggingface.co", "aws.amazon.com", "nvidia.com", "technologyreview.com", "arstechnica.com", "wired.com", "theregister.com", "zdnet.com", "venturebeat.com", "techcrunch.com", "theverge.com", "reuters.com", "ft.com", "wsj.com", "bloomberg.com"],
     low_value_domains: ["youtube.com", "youtu.be", "tiktok.com"],
   },
   feeds: [
@@ -375,7 +375,6 @@ const FALLBACK_CONFIG = {
     { name: "Google AI (The Keyword)", url: "https://blog.google/technology/ai/rss/", type: "official" },
     { name: "Microsoft AI Blog", url: "https://news.microsoft.com/source/topics/ai/feed/", type: "official" },
     { name: "Microsoft Research Blog", url: "https://www.microsoft.com/en-us/research/feed/", type: "official" },
-    { name: "Meta AI Blog", url: "https://ai.meta.com/blog/rss/", type: "official" },
     { name: "Hugging Face Blog", url: "https://huggingface.co/blog/feed.xml", type: "official" },
     { name: "AWS Machine Learning Blog", url: "https://aws.amazon.com/blogs/machine-learning/feed/", type: "official" },
     { name: "NVIDIA Blog", url: "https://blogs.nvidia.com/feed/", type: "official" },

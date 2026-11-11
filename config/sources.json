@@ -35,7 +35,6 @@
       "blog.google",
       "deepmind.google",
       "microsoft.com",
-      "ai.meta.com",
       "huggingface.co",
       "aws.amazon.com",
       "nvidia.com",
@@ -142,11 +141,6 @@
     {
       "name": "Microsoft Research Blog",
       "url": "https://www.microsoft.com/en-us/research/feed/",
-      "type": "official"
-    },
-    {
-      "name": "Meta AI Blog",
-      "url": "https://ai.meta.com/blog/rss/",
       "type": "official"
     },
     {
